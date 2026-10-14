@@ -1,0 +1,60 @@
+# MedamaLite single-container deployment.
+#
+# Both databases are plain files on the mounted volume:
+#   /app/data/medama.db               SQLite  - users, websites, tenant settings
+#   /app/data/medama_analytics.duckdb DuckDB  - analytics events
+#
+# Usage:
+#   docker compose up -d --build
+#   open http://127.0.0.1:8080
+
+services:
+  medamalite:
+    build:
+      context: .
+      args:
+        GO_VERSION: "1.26"
+        VERSION: ${VERSION:-development}
+        COMMIT_SHA: ${COMMIT_SHA:-development}
+    image: medamalite:local
+    container_name: medamalite
+    restart: unless-stopped
+
+    # Bind to the loopback interface only. Put a reverse proxy in front of it
+    # for public deployments, and set AUTO_SSL / AUTO_SSL_EMAIL if you want
+    # MedamaLite to manage certificates itself.
+    ports:
+      - "127.0.0.1:8081:8080"
+
+    volumes:
+      # The container runs as nobody (uid 65534). Docker Desktop maps bind mounts
+      # permissively, so this works as-is on Windows/macOS. On Linux the host
+      # directory must be writable by that uid, otherwise create it first with:
+      #   mkdir -p data && sudo chown -R 65534:65534 data
+      # (or replace this with a named volume, e.g. `medamalite-data:/app/data`,
+      # which inherits the ownership baked into the image).
+      - ./data:/app/data
+
+    environment:
+      PORT: "8080"
+      APP_DATABASE_HOST: /app/data/medama.db
+      ANALYTICS_DATABASE_HOST: /app/data/medama_analytics.duckdb
+      LOGGER: json
+      LEVEL: info
+      # DEMO_MODE: "true"
+      # PROFILER: "true"
+      # AUTO_SSL: analytics.example.com
+      # AUTO_SSL_EMAIL: ops@example.com
+
+    healthcheck:
+      test: ["CMD", "/app/medamalite", "version"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+    # Keep the footprint small; MedamaLite idles well under 50 MB.
+    deploy:
+      resources:
+        limits:
+          memory: 512M

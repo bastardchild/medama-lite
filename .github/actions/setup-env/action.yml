@@ -1,5 +1,5 @@
 name: Setup Environment
-description: Setup the local environment for a Medama workflow
+description: Setup the local environment for a MedamaLite workflow
 
 inputs:
   token:
@@ -14,14 +14,10 @@ runs:
       with:
         experimental: true
         install: true
-        install_args: go bun
+        install_args: go
         cache: true
         github_token: ${{ inputs.token }}
 
-    - name: Install dashboard dependencies
-      shell: bash
-      run: bun install --frozen-lockfile
-
-    - name: Generate embeds
+    - name: Generate Go API code
       shell: bash
       run: mise run //core:generate

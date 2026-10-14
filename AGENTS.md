@@ -6,9 +6,9 @@ You are working in the Medama monorepo, a self-hosted, cookie-free website analy
 
 ## Repository Map
 
-- `core`: Go API server and single-binary application. It owns the OpenAPI contract, SQLite/DuckDB persistence, migrations, embedded dashboard assets, and embedded tracker scripts.
-- `dashboard`: React Router SPA / React TypeScript dashboard. It consumes generated API types from `core/openapi.yaml`.
-- `tracker`: Tiny browser JavaScript tracker. It is size-sensitive and ships generated tracked build artifacts.
+- `core`: Go server and single-binary application. It owns the OpenAPI contract, SQLite/DuckDB persistence, migrations, the server-rendered dashboard (`core/ui`), and the frozen tracker scripts (`core/client`).
+
+There is no longer a `dashboard` or `tracker` workspace. The React/Remix SPA was removed and replaced by `html/template` + HTMX + Alpine.js + Pico.css rendered from the Go binary; the tracker builds were frozen into `core/client/scripts`. No Node.js, Bun or npm is used to build or run MedamaLite.
 
 For package-specific work, read the nearest package `AGENTS.md` before changing files there. If multiple guides apply, follow all of them; the most specific guide wins when instructions differ.
 
@@ -34,11 +34,12 @@ For package-specific work, read the nearest package `AGENTS.md` before changing 
 Treat these as derived artifacts:
 
 - `core/api/oas_*_gen.go`: generated from `core/openapi.yaml` and ogen config.
-- `dashboard/app/api/types.d.ts`: generated from `core/openapi.yaml`.
-- `tracker/dist/*`: generated from `tracker/src/tracker.js` and tracker build scripts.
-- `core/client`: ignored embed output from dashboard and tracker builds.
 
-Change the source input, run the relevant generator, then review the generated diff. OpenAPI changes usually require both Go API generation and dashboard type generation. Do not hand-edit generated files.
+Change the source input, run the relevant generator, then review the generated diff. Do not hand-edit generated files.
+
+`core/client/scripts/*.js` are frozen tracker artefacts, not build output. To update them,
+rebuild the upstream tracker in a separate checkout and copy `tracker/dist/*.js` in. See
+`core/client/README.md`.
 
 ## Validation Defaults
 

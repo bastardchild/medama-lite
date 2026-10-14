@@ -1,0 +1,52 @@
+{{- define "page_home" -}}
+<div
+	x-data="websitesPage()"
+	@medama:created.window="onCreated($event.detail)"
+	@medama:deleted.window="onDeleted($event.detail)">
+
+	<header class="medama-page-header">
+		<hgroup>
+			<h1><span class="medama-brand-icon"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i></span> Websites</h1>
+			<p>Every site reporting to this MedamaLite instance.</p>
+		</hgroup>
+		<button type="button" class="medama-block-button medama-add-button" @click="openAdd()">
+			<i class="fa-solid fa-plus" aria-hidden="true"></i> Add website
+		</button>
+	</header>
+
+	<div id="websites-list"
+		hx-get="/ui/websites"
+		hx-trigger="medama:reload-websites from:window"
+		hx-target="this"
+		hx-swap="innerHTML">
+		{{ template "partial_websites" . }}
+	</div>
+
+	<div class="medama-modal" x-show="addOpen" x-cloak
+		@click.self="closeAdd()" @keydown.escape.window="closeAdd()">
+		<article>
+			<header>
+				<h2><i class="fa-solid fa-plus" aria-hidden="true"></i> Add a website</h2>
+				<p>Enter the domain you want to track.</p>
+			</header>
+
+			<form hx-post="/ui/websites" hx-target="#websites-list" hx-swap="innerHTML">
+				<label for="add-hostname">
+					Domain
+					<input type="text" id="add-hostname" name="hostname" x-ref="hostname"
+						placeholder="example.com" autocomplete="off" required>
+				</label>
+
+				<div id="add-website-error" class="medama-feedback" aria-live="polite"></div>
+
+				<footer>
+					<button type="button" class="secondary outline" @click="closeAdd()">Cancel</button>
+					<button type="submit">
+						<i class="fa-solid fa-plus" aria-hidden="true"></i> Add website
+					</button>
+				</footer>
+			</form>
+		</article>
+	</div>
+</div>
+{{- end -}}

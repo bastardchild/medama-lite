@@ -35,8 +35,12 @@
 **/*.pid.lock
 
 # Generated binaries
+core/**/medamalite
 core/**/main
 core/**/bin
-core/**/client
+core/**/build
+
+# NOTE: core/client holds the frozen tracker scripts and is a source directory,
+# so it must be included in the build context.
 
 fly.toml

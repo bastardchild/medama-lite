@@ -17,13 +17,13 @@ import (
 
 	"github.com/caddyserver/certmagic"
 	"github.com/go-faster/errors"
-	generate "github.com/medama-io/medama"
 	"github.com/medama-io/medama/api"
 	"github.com/medama-io/medama/db/duckdb"
 	"github.com/medama-io/medama/db/sqlite"
 	"github.com/medama-io/medama/middlewares"
 	"github.com/medama-io/medama/migrations"
 	"github.com/medama-io/medama/services"
+	"github.com/medama-io/medama/ui"
 	"github.com/medama-io/medama/util"
 	"github.com/medama-io/medama/util/logger"
 	"github.com/ogen-go/ogen/middleware"
@@ -202,7 +202,6 @@ func (s *StartCommand) Run(ctx context.Context) error {
 
 	// We need to add additional static routes for the web app.
 	mux := http.NewServeMux()
-	mux.Handle("/openapi.yaml", http.FileServer(http.FS(generate.OpenAPIDocument)))
 	mux.Handle("/api/", http.StripPrefix("/api", apiHandler))
 
 	// Start CPU profiling if enabled.
@@ -215,10 +214,22 @@ func (s *StartCommand) Run(ctx context.Context) error {
 		mux.HandleFunc("/debug/pprof/trace", pprof.Trace)
 	}
 
-	// SPA client.
-	err = services.SetupAssetHandler(mux, service.RuntimeConfig)
+	// Frozen tracker scripts, served from the embedded filesystem.
+	err = services.SetupTrackerHandler(mux, service.RuntimeConfig)
 	if err != nil {
-		return errors.Wrap(err, "failed to setup asset handler")
+		return errors.Wrap(err, "failed to setup tracker handler")
+	}
+
+	// Server-rendered dashboard. Pages and HTMX fragments are rendered by the
+	// ui package; there is no Node.js toolchain or SPA bundle involved.
+	uiServer, err := ui.NewServer(auth, service, sqlite, duckdb, s.AppDB.Host, s.AnalyticsDB.Host, GetVersion())
+	if err != nil {
+		return errors.Wrap(err, "failed to create ui server")
+	}
+
+	err = uiServer.Register(mux)
+	if err != nil {
+		return errors.Wrap(err, "failed to register ui routes")
 	}
 
 	// Apply custom CORS middleware to the mux handler
@@ -229,6 +240,9 @@ func (s *StartCommand) Run(ctx context.Context) error {
 
 	// X-API-Commit header for client-side cache busting.
 	handler = middlewares.XAPICommitMiddleware(s.Server.Commit)(handler)
+
+	// Security headers middleware (Clickjacking, MIME sniffing, and Referrer policy).
+	handler = middlewares.SecurityHeadersMiddleware()(handler)
 
 	// RateLimiter middleware to limit requests with coarse IP prefixes. Ensure this is applied last to the handler chain.
 	handler = middlewares.NewRateLimiter(handler)

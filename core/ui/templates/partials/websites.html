@@ -1,0 +1,48 @@
+{{- define "partial_websites" -}}
+{{ if .Websites }}
+<div class="medama-grid">
+	{{ range .Websites }}
+	<article class="medama-card medama-website">
+		<header>
+			<h2>
+				<i class="fa-solid fa-globe" aria-hidden="true"></i>
+				<a href="/d/{{ .Hostname }}">{{ .Hostname }}</a>
+			</h2>
+		</header>
+
+		<p class="medama-website-visitors">
+			<strong>{{ formatNumber .Visitors }}</strong>
+			<small class="medama-muted">visitors in the last 24 hours</small>
+		</p>
+
+		<footer class="medama-website-actions">
+			<button type="button" class="outline secondary"
+				data-hostname="{{ .Hostname }}"
+				data-snippet="{{ .Snippet }}"
+				@click="$store.snippet.show($el.dataset.hostname, $el.dataset.snippet)">
+				<i class="fa-solid fa-code" aria-hidden="true"></i> Snippet
+			</button>
+
+			<a href="/d/{{ .Hostname }}" role="button">
+				<i class="fa-solid fa-chart-line" aria-hidden="true"></i> Dashboard
+			</a>
+
+			<button type="button" class="outline medama-danger"
+				aria-label="Delete {{ .Hostname }}"
+				hx-delete="/ui/websites/{{ .Hostname }}"
+				hx-target="#websites-list"
+				hx-swap="innerHTML"
+				hx-confirm="Delete {{ .Hostname }} and all of its analytics data? This cannot be undone.">
+				<i class="fa-solid fa-trash" aria-hidden="true"></i>
+			</button>
+		</footer>
+	</article>
+	{{ end }}
+</div>
+{{ else }}
+<article class="medama-card medama-empty">
+	<p><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i> No websites yet.</p>
+	<p class="medama-muted">Add your first domain to start collecting analytics.</p>
+</article>
+{{ end }}
+{{- end -}}

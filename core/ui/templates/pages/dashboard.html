@@ -1,0 +1,117 @@
+{{- define "page_dashboard" -}}
+<script type="application/json" id="medama-initial-state">{{ .FiltersJSON }}</script>
+
+<div x-data="analyticsFilter(document.getElementById('medama-initial-state'))">
+
+	<header class="medama-page-header">
+		<hgroup>
+			<h1><span class="medama-brand-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></span> {{ .Hostname }}</h1>
+			<p>Traffic for the selected period. Click any row in a table to filter every panel.</p>
+		</hgroup>
+		<div class="medama-header-actions">
+			<button type="button" class="outline secondary"
+				data-hostname="{{ .Hostname }}"
+				data-snippet="{{ .Snippet }}"
+				@click="$store.snippet.show($el.dataset.hostname, $el.dataset.snippet)">
+				<i class="fa-solid fa-code" aria-hidden="true"></i> Snippet
+			</button>
+			<a href="/" role="button" class="outline secondary">
+				<i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Websites
+			</a>
+		</div>
+	</header>
+
+	<section class="medama-filters" aria-label="Dashboard filters">
+		<div class="medama-periods" role="group" aria-label="Time period">
+			{{ range .Periods }}
+			<button type="button" class="medama-tab"
+				:class="period === '{{ .Value }}' && 'medama-tab-active'"
+				:aria-pressed="period === '{{ .Value }}'"
+				@click="setPeriod('{{ .Value }}')">
+				<i class="{{ .Icon }}" aria-hidden="true"></i> {{ .Label }}
+			</button>
+			{{ end }}
+		</div>
+
+		<div class="medama-custom-range" x-show="period === 'custom'" x-cloak>
+			<label>
+				<span>From</span>
+				<input type="date" x-model="start" @change="refresh()">
+			</label>
+			<label>
+				<span>To</span>
+				<input type="date" x-model="end" @change="refresh()">
+			</label>
+		</div>
+
+		<div class="medama-active-filters" x-show="activeFilters.length > 0" x-cloak>
+			<span class="medama-muted">Filters</span>
+			<template x-for="filter in activeFilters" :key="filter.key">
+				<kbd class="medama-filter-pill" role="button" tabindex="0"
+					@click="toggleFilter(filter.key, filter.value)"
+					@keydown.enter="toggleFilter(filter.key, filter.value)">
+					<span x-text="filter.label + ': ' + filter.value"></span>
+					<i class="fa-solid fa-xmark" aria-hidden="true"></i>
+				</kbd>
+			</template>
+			<button type="button" class="medama-link-button" @click="clearFilters()">Clear all</button>
+		</div>
+	</section>
+
+	<section id="panel-summary" class="medama-summary"
+		hx-get="/ui/partials/{{ .Hostname }}/summary"
+		:hx-get="panelUrl('summary')"
+		hx-trigger="medama:refresh from:window"
+		hx-target="this"
+		hx-swap="innerHTML">
+		{{ template "partial_summary" .Summary }}
+	</section>
+
+	<div class="medama-grid medama-analytics-grid">
+		<section id="panel-pages" class="medama-panel"
+			hx-get="/ui/partials/{{ .Hostname }}/pages"
+			:hx-get="panelUrl('pages')"
+			hx-trigger="medama:refresh from:window"
+			hx-target="this"
+			hx-swap="innerHTML">
+			{{ template "partial_table_pages" .Pages }}
+		</section>
+
+		<section id="panel-referrers" class="medama-panel"
+			hx-get="/ui/partials/{{ .Hostname }}/referrers"
+			:hx-get="panelUrl('referrers')"
+			hx-trigger="medama:refresh from:window"
+			hx-target="this"
+			hx-swap="innerHTML">
+			{{ template "partial_table_referrers" .Referrers }}
+		</section>
+
+		<section id="panel-devices" class="medama-panel"
+			hx-get="/ui/partials/{{ .Hostname }}/devices"
+			:hx-get="panelUrl('devices')"
+			hx-trigger="medama:refresh from:window"
+			hx-target="this"
+			hx-swap="innerHTML">
+			{{ template "partial_table_devices" .Devices }}
+		</section>
+
+		<section id="panel-countries" class="medama-panel"
+			hx-get="/ui/partials/{{ .Hostname }}/countries"
+			:hx-get="panelUrl('countries')"
+			hx-trigger="medama:refresh from:window"
+			hx-target="this"
+			hx-swap="innerHTML">
+			{{ template "partial_table_countries" .Countries }}
+		</section>
+	</div>
+
+	<section id="panel-events" class="medama-panel"
+		hx-get="/ui/partials/{{ .Hostname }}/events"
+		:hx-get="panelUrl('events')"
+		hx-trigger="medama:refresh from:window"
+		hx-target="this"
+		hx-swap="innerHTML">
+		{{ template "partial_table_events" .Events }}
+	</section>
+</div>
+{{- end -}}

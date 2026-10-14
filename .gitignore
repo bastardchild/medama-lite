@@ -8,6 +8,9 @@
 **/.react-router
 **/build
 **/.env
+**/.env.*
+!**/.env.example
+!**/.env.template
 
 # Binaries for programs and plugins
 **/*.exe
@@ -25,10 +28,18 @@
 # Go workspace file
 **/go.work
 
-# DBs
+# DBs and local data storage
 **/*.db
 !**/*.test.db
 **/*.wal
+**/*.duckdb
+**/*.duckdb.wal
+**/*.duckdb_extension
+**/*.sqlite
+**/*.sqlite3
+**/*.db-shm
+**/*.db-wal
+/data/
 
 # Runtime data
 **/pids
@@ -39,12 +50,34 @@
 # Generated binaries
 core/**/main
 core/**/bin
-core/**/client
+core/**/build
+medamalite
+medama
+coverage.txt
+
+# NOTE: core/client is no longer a build output. It is a source directory that
+# holds the frozen tracker scripts, so it must stay tracked by git.
 
 # Output of pprof files
 **/*.prof
 
-# AI
+# AI & Assistant tools
 .zed
 .serena
 AGENT.md
+.agents/
+.workbuddy-ai/
+graphify-out/
+.claude/
+.cursor/
+.gemini/
+.copilot/
+
+# Operating Systems & IDEs
+.DS_Store
+Thumbs.db
+desktop.ini
+**/.idea
+*.swp
+*.swo
+*~

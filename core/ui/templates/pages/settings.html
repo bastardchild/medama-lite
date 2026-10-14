@@ -1,0 +1,219 @@
+{{- define "page_settings" -}}
+<header class="medama-page-header">
+	<hgroup>
+		<h1><span class="medama-brand-icon"><i class="fa-solid fa-gear" aria-hidden="true"></i></span> Settings</h1>
+		<p>Account, tracker and host resource settings.</p>
+	</hgroup>
+</header>
+
+{{ if .IsDemo }}
+<p class="medama-feedback medama-feedback-warn" role="status">
+	<i class="fa-solid fa-flask" aria-hidden="true"></i>
+	Demo mode is enabled. Saving changes is disabled.
+</p>
+{{ end }}
+
+<div class="medama-grid">
+	<article class="medama-card">
+		<header>
+			<h2><i class="fa-solid fa-user" aria-hidden="true"></i> Profile</h2>
+			<p class="medama-muted">
+				Created {{ formatDate .Profile.DateCreated }} · updated {{ formatDate .Profile.DateUpdated }}
+			</p>
+		</header>
+
+		<form hx-post="/ui/settings/profile" hx-target="#profile-feedback" hx-swap="innerHTML">
+			<label for="profile-username">
+				Username
+				<input type="text" id="profile-username" name="username"
+					value="{{ .Profile.Username }}" autocomplete="username" required>
+			</label>
+			<div id="profile-feedback" class="medama-feedback" aria-live="polite"></div>
+			<button type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save profile</button>
+		</form>
+	</article>
+
+	<article class="medama-card">
+		<header>
+			<h2><i class="fa-solid fa-key" aria-hidden="true"></i> Password</h2>
+			<p class="medama-muted">Choose a password of at least 8 characters.</p>
+		</header>
+
+		<form hx-post="/ui/settings/password" hx-target="#password-feedback" hx-swap="innerHTML">
+			<label for="profile-password">
+				New password
+				<input type="password" id="profile-password" name="password"
+					autocomplete="new-password" minlength="8" required>
+			</label>
+			<label for="profile-confirm">
+				Confirm password
+				<input type="password" id="profile-confirm" name="confirmPassword"
+					autocomplete="new-password" minlength="8" required>
+			</label>
+			<div id="password-feedback" class="medama-feedback" aria-live="polite"></div>
+			<button type="submit"><i class="fa-solid fa-lock" aria-hidden="true"></i> Update password</button>
+		</form>
+	</article>
+</div>
+
+<article class="medama-card">
+	<header>
+		<h2><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Tracking &amp; privacy</h2>
+		<p class="medama-muted">Applies to every tracked website on this instance.</p>
+	</header>
+
+	<form hx-post="/ui/settings/system" hx-target="#system-feedback" hx-swap="innerHTML">
+		<fieldset>
+			<legend>Tracker features</legend>
+
+			<label for="script-default">
+				<input type="checkbox" id="script-default" name="scriptType" value="default"
+					{{ if contains .System.ScriptType "default" }}checked{{ end }}>
+				Base tracker (pageviews, referrers, devices)
+			</label>
+
+			<label for="script-page-events">
+				<input type="checkbox" id="script-page-events" name="scriptType" value="page-events"
+					{{ if contains .System.ScriptType "page-events" }}checked{{ end }}>
+				Page events (scroll depth and outbound clicks)
+			</label>
+
+			<label for="script-click-events">
+				<input type="checkbox" id="script-click-events" name="scriptType" value="click-events"
+					{{ if contains .System.ScriptType "click-events" }}checked{{ end }}>
+				Click events
+			</label>
+		</fieldset>
+
+		<fieldset>
+			<legend>Traffic filtering</legend>
+
+			<label for="block-abusive">
+				<input type="checkbox" id="block-abusive" name="blockAbusiveIPs"
+					{{ if .System.BlockAbusiveIPs }}checked{{ end }}>
+				Block known abusive IP addresses
+			</label>
+
+			<label for="block-tor">
+				<input type="checkbox" id="block-tor" name="blockTorExitNodes"
+					{{ if .System.BlockTorExitNodes }}checked{{ end }}>
+				Block Tor exit nodes
+			</label>
+
+			<label for="blocked-ips">
+				Manually blocked IP addresses
+				<textarea id="blocked-ips" name="blockedIPs" rows="3"
+					placeholder="203.0.113.4, 198.51.100.7">{{ .System.BlockedIPs }}</textarea>
+			</label>
+		</fieldset>
+
+		<div id="system-feedback" class="medama-feedback" aria-live="polite"></div>
+		<button type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save tracker settings</button>
+	</form>
+</article>
+
+<article class="medama-card">
+	<header>
+		<h2><i class="fa-solid fa-server" aria-hidden="true"></i> Host resources</h2>
+	</header>
+
+	<table class="medama-table medama-table-plain">
+		<tbody>
+			<tr>
+				<th scope="row">CPU</th>
+				<td class="medama-num">{{ formatFloat .Usage.CPUUsage }}%</td>
+				<td class="medama-muted">{{ .Usage.CPUCores }} cores · {{ .Usage.CPUThreads }} threads</td>
+			</tr>
+			<tr>
+				<th scope="row">Memory</th>
+				<td class="medama-num">{{ formatBytes .Usage.MemoryUsed }} / {{ formatBytes .Usage.MemoryMax }}</td>
+				<td>
+					<span class="medama-bar" aria-hidden="true">
+						<span class="medama-bar-fill" style="{{ barWidth .Usage.MemoryPct }}"></span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Disk</th>
+				<td class="medama-num">{{ formatBytes .Usage.DiskUsed }} / {{ formatBytes .Usage.DiskMax }}</td>
+				<td>
+					<span class="medama-bar" aria-hidden="true">
+						<span class="medama-bar-fill" style="{{ barWidth .Usage.DiskPct }}"></span>
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</article>
+
+<article class="medama-card">
+	<header>
+		<h2><i class="fa-solid fa-code" aria-hidden="true"></i> API Specification</h2>
+		<p class="medama-muted">Developer integration and REST API contract.</p>
+	</header>
+	<p>
+		MedamaLite provides an OpenAPI 3.1 specification for programmatic access and external integrations. Only authenticated users can access the schema.
+	</p>
+	<footer>
+		<a href="/openapi.yaml" role="button" class="outline secondary" target="_blank" rel="noopener">
+			<i class="fa-solid fa-file-code" aria-hidden="true"></i> View OpenAPI YAML
+		</a>
+	</footer>
+</article>
+
+<article class="medama-card">
+	<header>
+		<h2><i class="fa-solid fa-database" aria-hidden="true"></i> Database backup &amp; restore</h2>
+		<p class="medama-muted">Export and restore application metadata (SQLite) and analytics events (DuckDB).</p>
+	</header>
+	<div style="padding: 1.15rem; display: flex; flex-direction: column; gap: 1.15rem;">
+		<div>
+			<h3 style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;">
+				<i class="fa-solid fa-download" aria-hidden="true"></i> Download database backup
+			</h3>
+			<p style="font-size: 0.78rem; color: var(--medama-text-muted); margin: 0 0 0.65rem 0;">
+				Export all website profiles, users, settings, and visitor analytics into a single compressed ZIP package.
+			</p>
+			<a href="/ui/backup/download" role="button" class="outline secondary">
+				<i class="fa-solid fa-cloud-arrow-down" aria-hidden="true"></i> Download backup (.zip)
+			</a>
+		</div>
+
+		<hr style="border: 0; border-top: 1px solid var(--medama-border); margin: 0;">
+
+		<div>
+			<h3 style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;">
+				<i class="fa-solid fa-upload" aria-hidden="true"></i> Restore database from backup
+			</h3>
+			<p style="font-size: 0.78rem; color: var(--medama-text-muted); margin: 0 0 0.65rem 0;">
+				Upload a previous MedamaLite backup ZIP file. Existing data will be replaced by the contents of the backup.
+			</p>
+			<form hx-post="/ui/backup/restore" hx-target="#backup-feedback" hx-swap="innerHTML" hx-encoding="multipart/form-data" style="margin: 0; padding: 0;">
+				<label for="backup-file" style="font-size: 0.75rem; font-weight: 500; margin-bottom: 0.35rem; display: block;">
+					Select backup file (.zip)
+				</label>
+				<input type="file" id="backup-file" name="backup_file" accept=".zip,.db" required style="font-size: 0.78rem; margin-bottom: 0.75rem;">
+				<div id="backup-feedback" class="medama-feedback" aria-live="polite"></div>
+				<button type="submit" class="outline secondary" onclick="return confirm('Are you sure you want to restore the database? Current data will be replaced.')">
+					<i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Restore database
+				</button>
+			</form>
+		</div>
+	</div>
+</article>
+
+<article class="medama-card medama-danger-zone">
+	<header>
+		<h2><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Danger zone</h2>
+	</header>
+	<p>
+		Deleting a website removes its configuration from SQLite and purges every analytics row
+		for that hostname from DuckDB. This cannot be undone.
+	</p>
+	<footer>
+		<a href="/" role="button" class="outline medama-danger">
+			<i class="fa-solid fa-trash" aria-hidden="true"></i> Manage websites
+		</a>
+	</footer>
+</article>
+{{- end -}}

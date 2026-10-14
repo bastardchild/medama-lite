@@ -30,7 +30,7 @@ var (
 
 // NewCache creates a new cache that asynchronously cleans
 // expired entries after the given time passes.
-func NewCache(_ctx context.Context, cleaningInterval time.Duration) *Cache {
+func NewCache(ctx context.Context, cleaningInterval time.Duration) *Cache {
 	cache := &Cache{
 		close: make(chan struct{}),
 	}
@@ -58,6 +58,8 @@ func NewCache(_ctx context.Context, cleaningInterval time.Duration) *Cache {
 				})
 
 			case <-cache.close:
+				return
+			case <-ctx.Done():
 				return
 			}
 		}

@@ -1,0 +1,97 @@
+{{- define "base" -}}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="color-scheme" content="dark">
+	<title>{{ .Title }} · MedamaLite</title>
+	<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css">
+	<link rel="stylesheet" href="/static/app.css">
+
+	<!-- Force dark theme bootstrap -->
+	<script src="/static/theme.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/htmx.org@2/dist/htmx.min.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" defer></script>
+	<!--
+		app.js must run before Alpine so its "alpine:init" listener is registered
+		before Alpine dispatches the event. Alpine is therefore loaded last.
+	-->
+	<script src="/static/app.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" defer></script>
+</head>
+<body x-data>
+	{{ if .Username }}
+	<nav class="container-fluid medama-nav">
+		<ul>
+			<li>
+				<a href="/" class="medama-brand">
+					<span class="medama-brand-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></span>
+					<strong>MedamaLite</strong>
+				</a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="/" {{ if eq .Active "home" }}aria-current="page"{{ end }}>
+					<i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
+					<span class="medama-nav-label">Websites</span>
+				</a>
+			</li>
+			<li>
+				<a href="/settings" {{ if eq .Active "settings" }}aria-current="page"{{ end }}>
+					<i class="fa-solid fa-gear" aria-hidden="true"></i>
+					<span class="medama-nav-label">Settings</span>
+				</a>
+			</li>
+			<li>
+				<form method="post" action="/ui/auth/logout">
+					<button type="submit" class="medama-icon-button outline secondary" aria-label="Sign out">
+						<i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+					</button>
+				</form>
+			</li>
+		</ul>
+	</nav>
+	{{ end }}
+
+	<main class="container">
+		{{ .Content }}
+	</main>
+
+	<div class="medama-modal" x-data x-show="$store.snippet.open" x-cloak
+		@click.self="$store.snippet.close()" @keydown.escape.window="$store.snippet.close()">
+		<article>
+			<header>
+				<h2><i class="fa-solid fa-code" aria-hidden="true"></i> Tracking snippet</h2>
+				<p class="medama-muted" x-text="$store.snippet.hostname"></p>
+			</header>
+
+			<p>Paste this into the <code>&lt;head&gt;</code> of every page you want to track.</p>
+			<pre class="medama-snippet" x-text="$store.snippet.snippet"></pre>
+
+			<footer>
+				<button type="button" class="secondary outline" @click="$store.snippet.copy()">
+					<i class="fa-solid fa-copy" aria-hidden="true"></i>
+					<span x-text="$store.snippet.copied ? 'Copied' : 'Copy'"></span>
+				</button>
+				<button type="button" @click="$store.snippet.close()">Close</button>
+			</footer>
+		</article>
+	</div>
+
+	<footer class="container medama-footer">
+		<small>
+			{{ .Version }}{{ if .Username }} · <a href="/openapi.yaml">OpenAPI</a>{{ end }} · Cookie-free, privacy-first analytics
+		</small>
+	</footer>
+</body>
+</html>
+{{- end -}}

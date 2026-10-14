@@ -1,25 +1,24 @@
-# fly.toml app configuration file generated for medama on 2024-06-12T18:13:43+01:00
+# fly.toml app configuration file for MedamaLite
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
-app = 'medama'
+app = 'medamalite'
 primary_region = 'lhr'
 
 swap_size_mb = 1024
 
 [build]
-image = 'ghcr.io/medama-io/medama:edge'
+image = 'ghcr.io/medama-io/medamalite:edge'
 
 [env]
 ANALYTICS_DATABASE_HOST = '/db/analytics.db'
 APP_DATABASE_HOST = '/db/app.db'
 PORT = '8080'
 LEVEL = 'debug'
-DEMO_MODE = 'true'
 PROFILER = 'true'
 
 [[mounts]]
-source = 'medama_db'
+source = 'medamalite_db'
 destination = '/db'
 
 [http_service]

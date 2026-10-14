@@ -1,72 +1,80 @@
-# syntax = docker/dockerfile:1@sha256:87999aa3d42bdc6bea60565083ee17e86d1f3339802f543c0d03998580f9cb89
+# syntax = docker/dockerfile:1
 
-ARG MANYLINUX_IMAGE=quay.io/pypa/manylinux_2_34_x86_64@sha256:fab7c428345081656cfe4bd5dfa5228b8ce276f0da2c22b470a29134056398c3
-FROM ${MANYLINUX_IMAGE} AS build
+# MedamaLite builds a single Go binary. No Node.js, Bun or package manager is
+# involved: the tracker scripts are frozen in core/client/scripts and the
+# dashboard templates are embedded in core/ui.
+
+# The builder tag must be >= the `go` directive in core/go.mod (currently 1.26.4).
+# GOTOOLCHAIN is deliberately left at its default so that, if the image ships an
+# older 1.26.x patch, Go can still fetch the exact toolchain required by go.mod
+# instead of failing the build.
+ARG GO_VERSION=1.26
+
+# ------------------------------------------------------------------ builder ---
+FROM golang:${GO_VERSION}-bookworm AS build
 
 ARG VERSION=development
 ARG COMMIT_SHA=development
 
-ENV VERSION=${VERSION}
-ENV COMMIT_SHA=${COMMIT_SHA}
+ENV CGO_ENABLED=1 \
+	GOFLAGS=-buildvcs=false
 
-RUN yum -y install git curl unzip zip
+# go-duckdb links a prebuilt static libduckdb, but cgo still needs a C and C++
+# toolchain to compile the driver glue.
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends gcc g++ \
+	&& rm -rf /var/lib/apt/lists/*
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-ENV MISE_DATA_DIR="/mise"
-ENV MISE_CONFIG_DIR="/mise"
-ENV MISE_CACHE_DIR="/mise/cache"
-ENV MISE_INSTALL_PATH="/usr/local/bin/mise"
-ENV MISE_EXPERIMENTAL="1"
-ENV PATH="/mise/shims:$PATH"
+WORKDIR /src
 
-RUN curl https://mise.run | sh
-
-WORKDIR /app
-
-# Install language runtimes from mise.toml
-COPY mise.toml ./mise.toml
-COPY core/mise.toml ./core/mise.toml
-COPY dashboard/mise.toml ./dashboard/mise.toml
-COPY tracker/mise.toml ./tracker/mise.toml
-RUN mise trust -a -y && mise install go bun
-
-# Cache build dependencies
-ENV GOCACHE=/root/.cache/go-build
-
-# Cache Go modules
+# Cache the module graph separately from the source tree.
 COPY core/go.mod core/go.sum ./core/
-COPY package.json bun.lock ./
-COPY dashboard/package.json ./dashboard/
-COPY tracker/package.json ./tracker/
+RUN --mount=type=cache,target=/go/pkg/mod \
+	cd core && go mod download
 
-RUN --mount=type=cache,target=${GOCACHE} \
-	--mount=type=cache,target=/go/pkg/mod \
-	cd core && go mod download && cd ..
+COPY core ./core
 
-RUN bun install --frozen-lockfile
+RUN --mount=type=cache,target=/go/pkg/mod \
+	--mount=type=cache,target=/root/.cache/go-build \
+	cd core && go build \
+		-o /out/medamalite \
+		-ldflags "-s -w -X main.Version=${VERSION} -X main.Commit=${COMMIT_SHA}" \
+		-trimpath \
+		./cmd/
 
-# Verify environment variables
-RUN echo "VERSION=${VERSION}" && echo "COMMIT_SHA=${COMMIT_SHA}"
+# ------------------------------------------------------------------ runtime ---
+FROM debian:bookworm-slim AS runtime
 
-# Copy the rest of the source code
-COPY . .
-RUN --mount=type=cache,target=${GOCACHE} mise run //core:release:docker
-
-# Build the final image
-FROM gcr.io/distroless/cc-debian12@sha256:d703b626ba455c4e6c6fbe5f36e6f427c85d51445598d564652a2f334179f96e
-
-LABEL org.opencontainers.image.source=https://github.com/medama-io/medama \
+LABEL org.opencontainers.image.title="MedamaLite" \
 	org.opencontainers.image.description="Cookie-free, privacy-focused website analytics." \
-	org.opencontainers.image.licenses=Apache-2.0
+	org.opencontainers.image.licenses="Apache-2.0"
 
+# ca-certificates is required for AutoSSL / ACME; tzdata keeps the timezone to
+# country mapping used by the tracker accurate.
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends ca-certificates tzdata \
+	&& rm -rf /var/lib/apt/lists/*
+
+# HOME must point at a directory that actually exists and is writable. The
+# `nobody` account ships with HOME=/nonexistent, which makes DuckDB fail at
+# startup with "Can't find the home directory". Pointing HOME at the data volume
+# also keeps DuckDB's extension cache persistent across container restarts.
 ENV PORT=8080 \
-	ANALYTICS_DATABASE_HOST=/app/data/me_analytics.db \
-	APP_DATABASE_HOST=/app/data/me_app.db
+	APP_DATABASE_HOST=/app/data/medama.db \
+	ANALYTICS_DATABASE_HOST=/app/data/medama_analytics.duckdb \
+	HOME=/app/data
 
 WORKDIR /app
 
-# Copy the binary
-COPY --from=build /app/core/bin/main /app/bin/main
+COPY --from=build /out/medamalite /app/medamalite
 
-EXPOSE ${PORT}
-CMD ["/app/bin/main", "start", "-env"]
+# The DuckDB and SQLite files live on a mounted volume so analytics survive
+# container restarts.
+RUN mkdir -p /app/data && chown -R nobody:nogroup /app/data
+
+USER nobody:nogroup
+
+EXPOSE 8080
+VOLUME ["/app/data"]
+
+CMD ["/app/medamalite", "start", "-env"]

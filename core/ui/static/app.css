@@ -1,0 +1,1361 @@
+/*
+ * MedamaLite Modern SaaS Dashboard Styles - Permanent Dark Edition.
+ *
+ * Compact high-density SaaS design system inspired by Linear, Vercel, and Supabase.
+ * Palette: Modern Obsidian/Zinc with vibrant Emerald/Teal accents.
+ */
+
+:root,
+[data-theme='dark'] {
+	/* ------------------------------------------- Golden Ratio Mathematical Constants */
+	--phi: 1.618;
+	--phi-sub: 0.618;         /* 1 / phi */
+	--phi-sub-sq: 0.382;      /* 1 - 0.618 = 0.382 */
+	--phi-sub-cu: 0.236;      /* 0.618 * 0.382 = 0.236 */
+	--phi-harmonic: 1.272;    /* sqrt(phi) = 1.272 (modular scale ratio) */
+
+	/* ------------------------------------------- Typography (Golden Modular Scale) */
+	--font-base: 1rem;        /* 16px base font size */
+	--medama-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--pico-font-family: var(--medama-font);
+
+	/* Modular Scale for Text Elements (powers & harmonics of phi) */
+	--font-small: calc(var(--font-base) * 0.809);                      /* (1 + 0.618)/2 = 0.809rem (~13px) */
+	--font-h6: calc(var(--font-base));                                 /* 1.000rem (16px) */
+	--font-h5: calc(var(--font-base) * 1.146);                         /* 1 + 0.236/1.618 = 1.146rem (~18.3px) */
+	--font-h4: calc(var(--font-base) * var(--phi-harmonic));           /* 1.272rem (~20.35px) */
+	--font-h3: calc(var(--font-base) * 1.414);                         /* 1.414rem (~22.6px) */
+	--font-h2: calc(var(--font-base) * var(--phi));                    /* 1.618rem (~25.88px) */
+	--font-h1: calc(var(--font-base) * var(--phi) * var(--phi-harmonic)); /* 2.058rem (~32.9px) */
+
+	/* Line Heights with Golden Ratio */
+	--line-height-body: 1.618;
+	--line-height-h6: 1.382;
+	--line-height-h5: 1.272;
+	--line-height-h4: 1.25;
+	--line-height-h3: 1.236;
+	--line-height-h2: 1.213;
+	--line-height-h1: 1.168;
+
+	/* Eye Comfort Reading Measure */
+	--p-max-width: 62ch;      /* 60ch - 65ch */
+
+	/* Deep Zinc / Obsidian Surfaces */
+	--medama-bg: #09090b;
+	--medama-nav-bg: rgba(9, 9, 11, 0.85);
+	--medama-surface: #121215;
+	--medama-surface-subtle: #18181d;
+	--medama-surface-hover: #1f1f26;
+	--medama-border: rgba(255, 255, 255, 0.08);
+	--medama-border-hover: rgba(255, 255, 255, 0.16);
+	--medama-text: #f4f4f5;
+	--medama-text-muted: #8c8c9a;
+	--medama-text-faint: #52525b;
+
+	/* Vibrant Emerald Accents */
+	--medama-emerald: #10b981;
+	--medama-emerald-hover: #059669;
+	--medama-emerald-light: #34d399;
+	--medama-emerald-glow: rgba(16, 185, 129, 0.14);
+	--medama-emerald-border: rgba(16, 185, 129, 0.3);
+
+	/* Golden Proportions: Components & Buttons */
+	--btn-font: calc(var(--font-base) * 0.75); /* 0.75rem = 12px (75% of base font) */
+	--btn-gap: 0.618em;
+	--btn-radius: 0.382rem;   /* 1 - 0.618 = 0.382rem */
+	--btn-transition: all 0.236s cubic-bezier(0.16, 1, 0.3, 1);
+
+	/* Button Sizing & Padding Variants (Horizontal = Vertical * 1.618) */
+	/* Small: btn-sm */
+	--btn-sm-font: calc(var(--btn-font) * 0.854);
+	--btn-sm-py: 0.25rem;
+	--btn-sm-px: calc(var(--btn-sm-py) * var(--phi));
+	--btn-sm-height: 26px;
+
+	/* Default/Medium: btn-md, standard buttons and [role="button"] */
+	--btn-md-font: var(--btn-font);
+	--btn-md-py: 0.42rem;
+	--btn-md-px: calc(var(--btn-md-py) * var(--phi)); /* 0.42 * 1.618 = 0.68rem */
+	--btn-md-height: 32px;
+
+	/* Large: btn-lg */
+	--btn-lg-font: calc(var(--btn-font) * var(--phi-harmonic));
+	--btn-lg-py: 0.618rem;
+	--btn-lg-px: calc(var(--btn-lg-py) * var(--phi));
+	--btn-lg-height: 40px;
+
+	/* Shadows & Geometry */
+	--medama-radius: 9px;
+	--medama-radius-sm: var(--btn-radius);
+	--medama-radius-pill: 9999px;
+	--medama-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+	--medama-shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.5);
+	--medama-shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.7);
+
+	/* Pico Variable Overrides */
+	--pico-font-size: 16px;
+	--pico-line-height: var(--line-height-body);
+	--pico-primary: var(--medama-emerald);
+	--pico-primary-background: var(--medama-emerald);
+	--pico-primary-hover: var(--medama-emerald-hover);
+	--pico-primary-underline: rgba(16, 185, 129, 0.5);
+	--pico-primary-focus: rgba(16, 185, 129, 0.2);
+	--pico-border-radius: var(--btn-radius);
+	--pico-background-color: var(--medama-bg);
+	--pico-color: var(--medama-text);
+	--pico-muted-color: var(--medama-text-muted);
+	--pico-border-color: var(--medama-border);
+	--pico-card-background-color: var(--medama-surface);
+	--pico-spacing: calc(var(--phi-sub) * 1rem);
+	--pico-form-element-spacing-vertical: var(--btn-md-py);
+	--pico-form-element-spacing-horizontal: var(--btn-md-px);
+}
+
+html {
+	font-size: 16px;
+	background-color: var(--medama-bg);
+	color: var(--medama-text);
+	color-scheme: dark;
+}
+
+body {
+	font-family: var(--medama-font);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: var(--medama-bg);
+	color: var(--medama-text);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	font-size: var(--font-base);
+	line-height: var(--line-height-body);
+}
+
+p {
+	max-width: var(--p-max-width);
+	line-height: var(--line-height-body);
+}
+
+small {
+	font-size: var(--font-small);
+	line-height: 1.45;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--medama-font);
+	color: var(--medama-text);
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	margin-top: 0;
+	margin-bottom: calc(var(--phi-sub) * 1rem);
+}
+
+h1 {
+	font-size: var(--font-h1);
+	line-height: var(--line-height-h1);
+	font-weight: 700;
+}
+
+h2 {
+	font-size: var(--font-h2);
+	line-height: var(--line-height-h2);
+}
+
+h3 {
+	font-size: var(--font-h3);
+	line-height: var(--line-height-h3);
+}
+
+h4 {
+	font-size: var(--font-h4);
+	line-height: var(--line-height-h4);
+}
+
+h5 {
+	font-size: var(--font-h5);
+	line-height: var(--line-height-h5);
+}
+
+h6 {
+	font-size: var(--font-h6);
+	line-height: var(--line-height-h6);
+}
+
+main.container {
+	flex: 1;
+	width: 90%;
+	max-width: 90% !important;
+	padding: 0 1.25rem;
+}
+
+[x-cloak] {
+	display: none !important;
+}
+
+/* ------------------------------------------------------------- modern buttons (Golden Ratio) */
+
+button,
+input[type='submit'],
+input[type='button'],
+[role='button'] {
+	box-sizing: border-box !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	height: var(--btn-md-height) !important;
+	min-height: var(--btn-md-height) !important;
+	gap: var(--btn-gap);
+	font-family: var(--medama-font);
+	font-size: var(--btn-md-font) !important;
+	font-weight: 500;
+	line-height: 1 !important;
+	padding: 0 var(--btn-md-px) !important;
+	border-radius: var(--btn-radius);
+	border: 1px solid transparent;
+	cursor: pointer;
+	text-decoration: none !important;
+	margin: 0 !important;
+	vertical-align: middle !important;
+	user-select: none;
+	white-space: nowrap;
+	transition: var(--btn-transition);
+}
+
+/* Button Size Variants (btn-sm, btn-md, btn-lg) */
+.btn-sm,
+button.btn-sm,
+[role='button'].btn-sm {
+	font-size: var(--btn-sm-font) !important;
+	height: var(--btn-sm-height) !important;
+	min-height: var(--btn-sm-height) !important;
+	padding: 0 var(--btn-sm-px) !important;
+	gap: calc(var(--btn-gap) * var(--phi-sub));
+	border-radius: calc(var(--btn-radius) * var(--phi-sub));
+}
+
+.btn-md,
+button.btn-md,
+[role='button'].btn-md {
+	font-size: var(--btn-md-font) !important;
+	height: var(--btn-md-height) !important;
+	min-height: var(--btn-md-height) !important;
+	padding: 0 var(--btn-md-px) !important;
+	gap: var(--btn-gap);
+	border-radius: var(--btn-radius);
+}
+
+.btn-lg,
+button.btn-lg,
+[role='button'].btn-lg {
+	font-size: var(--btn-lg-font) !important;
+	height: var(--btn-lg-height) !important;
+	min-height: var(--btn-lg-height) !important;
+	padding: 0 var(--btn-lg-px) !important;
+	gap: calc(var(--btn-gap) * var(--phi-harmonic));
+	border-radius: calc(var(--btn-radius) * var(--phi-harmonic));
+}
+
+/* Primary Button (Emerald) with soft ambient glow */
+button.primary,
+button[type='submit'],
+[role='button']:not(.outline):not(.secondary):not(.medama-tab):not(.medama-filter-pill),
+button:not(.outline):not(.secondary):not(.medama-tab):not(.medama-filter-pill):not(.medama-link-button):not(.medama-icon-button):not([class*='tab']) {
+	background: #10b981;
+	color: #052e16 !important;
+	border-color: #10b981;
+	font-weight: 600;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+button.primary:hover,
+button[type='submit']:hover,
+[role='button']:not(.outline):not(.secondary):not(.medama-tab):not(.medama-filter-pill):hover,
+button:not(.outline):not(.secondary):not(.medama-tab):not(.medama-filter-pill):not(.medama-link-button):not(.medama-icon-button):not([class*='tab']):hover {
+	background: #059669;
+	border-color: #059669;
+	color: #ffffff !important;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+button.primary:active,
+button[type='submit']:active,
+[role='button']:not(.outline):not(.secondary):not(.medama-tab):not(.medama-filter-pill):active,
+button:not(.outline):not(.secondary):not(.medama-tab):not(.medama-filter-pill):not(.medama-link-button):not(.medama-icon-button):not([class*='tab']):active {
+	transform: translateY(0);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Secondary / Outline Button (Glass Zinc) */
+button.outline,
+button.secondary,
+[role='button'].outline,
+[role='button'].secondary {
+	background: rgba(255, 255, 255, 0.03) !important;
+	color: #e4e4e7 !important;
+	border: 1px solid rgba(255, 255, 255, 0.09) !important;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+button.outline:hover,
+button.secondary:hover,
+[role='button'].outline:hover,
+[role='button'].secondary:hover {
+	background: rgba(255, 255, 255, 0.08) !important;
+	color: #ffffff !important;
+	border-color: rgba(255, 255, 255, 0.2) !important;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+button.outline:active,
+button.secondary:active,
+[role='button'].outline:active,
+[role='button'].secondary:active {
+	transform: translateY(0);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Danger Button */
+button.medama-danger,
+.medama-danger {
+	background: rgba(239, 68, 68, 0.06) !important;
+	border: 1px solid rgba(239, 68, 68, 0.25) !important;
+	color: #f87171 !important;
+}
+
+button.medama-danger:hover,
+.medama-danger:hover {
+	background: rgba(239, 68, 68, 0.18) !important;
+	border-color: rgba(239, 68, 68, 0.5) !important;
+	color: #ffffff !important;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+/* ---------------------------------------------------------------- navigation */
+
+.medama-nav {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	background: var(--medama-nav-bg);
+	border-bottom: 1px solid var(--medama-border);
+	margin-bottom: 1.5rem;
+	padding: 0.45rem 1.25rem;
+	max-width: 100%;
+}
+
+.medama-nav ul {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.medama-nav a {
+	text-decoration: none;
+	color: var(--medama-text-muted);
+	font-size: 0.8rem;
+	font-weight: 500;
+	padding: 0.3rem 0.65rem;
+	border-radius: var(--medama-radius-sm);
+	transition: all 0.12s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.medama-nav a:hover {
+	color: var(--medama-text);
+	background: var(--medama-surface-subtle);
+}
+
+.medama-nav a[aria-current='page'] {
+	color: var(--medama-text);
+	background: var(--medama-surface-subtle);
+	font-weight: 600;
+}
+
+.medama-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55rem;
+	font-size: 0.95rem;
+	font-weight: 700;
+	color: var(--medama-text) !important;
+	letter-spacing: -0.02em;
+	padding-left: 0 !important;
+}
+
+.medama-brand-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.6rem;
+	height: 1.6rem;
+	border-radius: 6px;
+	background: var(--medama-emerald-glow);
+	color: var(--medama-emerald-light);
+	font-size: 0.78rem;
+}
+
+.medama-icon-button {
+	width: 1.85rem;
+	height: 1.85rem;
+	padding: 0 !important;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 0;
+	border-radius: var(--medama-radius-sm);
+	border: 1px solid var(--medama-border) !important;
+	background: transparent !important;
+	color: var(--medama-text-muted) !important;
+	cursor: pointer;
+	font-size: 0.8rem;
+	transition: all 0.12s ease;
+}
+
+.medama-icon-button:hover {
+	color: var(--medama-text) !important;
+	background: var(--medama-surface-subtle) !important;
+	border-color: var(--medama-border-hover) !important;
+	transform: translateY(-1px);
+}
+
+.medama-nav form {
+	margin: 0;
+}
+
+/* ------------------------------------------------------------------ headings */
+
+.medama-page-header {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.85rem;
+	align-items: flex-end;
+	justify-content: space-between;
+	margin-bottom: 1.25rem;
+}
+
+.medama-page-header h1 {
+	margin-bottom: 0.15rem;
+	font-size: 1.2rem;
+	font-weight: 650;
+	letter-spacing: -0.02em;
+	color: var(--medama-text);
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.medama-page-header p {
+	margin: 0;
+	font-size: 0.8rem;
+	color: var(--medama-text-muted);
+}
+
+.medama-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------------- layout */
+
+/* Dashboard Utama (Websites Grid): 3 kolom di Desktop */
+.medama-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1rem;
+	align-items: start;
+	margin-bottom: 1rem;
+}
+
+/* Tablet: 2 kolom untuk dashboard utama */
+@media (max-width: 1024px) {
+	.medama-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+/* Mobile: 1 kolom */
+@media (max-width: 640px) {
+	.medama-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Halaman Metrik Analitik (Pages, Referrers, Devices, Countries): 2 kolom di Desktop & Tablet */
+.medama-analytics-grid,
+.medama-grid-2,
+.medama-summary + .medama-grid,
+[x-data*='analyticsFilter'] .medama-grid {
+	grid-template-columns: repeat(2, 1fr) !important;
+}
+
+@media (max-width: 768px) {
+	.medama-analytics-grid,
+	.medama-grid-2,
+	.medama-summary + .medama-grid,
+	[x-data*='analyticsFilter'] .medama-grid {
+		grid-template-columns: 1fr !important;
+	}
+}
+
+.medama-card,
+.medama-panel {
+	background: var(--medama-surface);
+	border: 1px solid var(--medama-border);
+	border-radius: var(--medama-radius);
+	box-shadow: var(--medama-shadow-sm);
+	padding: 0;
+	margin-bottom: 1rem;
+	overflow: hidden;
+	transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.medama-card:hover,
+.medama-panel:hover {
+	border-color: var(--medama-border-hover);
+}
+
+.medama-card > header,
+.medama-panel > header {
+	padding: 0.85rem 1.15rem;
+	margin: 0;
+	border-bottom: 1px solid var(--medama-border);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: var(--medama-surface-subtle);
+}
+
+.medama-card > footer,
+.medama-panel > footer {
+	padding: 0.75rem 1.15rem;
+	margin: 0;
+	border-top: 1px solid var(--medama-border);
+	background: var(--medama-surface-subtle);
+}
+
+.medama-card > form,
+.medama-panel > form {
+	padding: 1.15rem;
+	margin: 0;
+}
+
+.medama-card > p,
+.medama-panel > p {
+	padding: 1rem 1.15rem;
+	margin: 0;
+	color: var(--medama-text-muted);
+}
+
+.medama-chart-card {
+	padding: 0 !important;
+	overflow: hidden;
+}
+
+.medama-chart-card .medama-chart {
+	padding: 1rem 1.15rem;
+}
+
+.medama-empty {
+	padding: 2.5rem 1.5rem !important;
+	text-align: center;
+}
+
+.medama-card h2,
+.medama-panel h2 {
+	font-size: 0.85rem;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	margin: 0;
+	color: var(--medama-text);
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+}
+
+.medama-card h2 i,
+.medama-panel h2 i {
+	color: var(--medama-emerald);
+	font-size: 0.78rem;
+}
+
+.medama-card header p {
+	margin: 0.15rem 0 0;
+	font-size: 0.75rem;
+	color: var(--medama-text-muted);
+}
+
+/* ------------------------------------------------------------------ metrics */
+
+.medama-metrics {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 0.85rem;
+	margin-bottom: 1rem;
+}
+
+.medama-metric {
+	background: var(--medama-surface) !important;
+	border: 1px solid var(--medama-border) !important;
+	border-radius: var(--medama-radius) !important;
+	box-shadow: var(--medama-shadow-sm) !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	overflow: hidden;
+}
+
+.medama-metric > header {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: flex-start !important;
+	gap: 0.45rem !important;
+	padding: 0.5rem 0.85rem !important;
+	margin: 0 !important;
+	border-bottom: 1px solid var(--medama-border) !important;
+	background: var(--medama-surface-subtle) !important;
+}
+
+.medama-metric-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.45rem;
+	height: 1.45rem;
+	border-radius: 5px;
+	background: var(--medama-emerald-glow);
+	color: var(--medama-emerald-light);
+	font-size: 0.72rem;
+}
+
+.medama-metric-label {
+	font-size: 0.68rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--medama-text-muted);
+}
+
+.medama-metric-value {
+	font-size: 1.55rem;
+	font-weight: 700;
+	letter-spacing: -0.03em;
+	font-variant-numeric: tabular-nums;
+	color: var(--medama-text);
+	margin: 0 !important;
+	padding: 0.65rem 0.85rem 0.2rem !important;
+	line-height: 1.15;
+}
+
+.medama-metric-delta {
+	margin: 0 !important;
+	margin-left: 0.85rem !important;
+	margin-bottom: 0.65rem !important;
+	padding: 0.12rem 0.45rem !important;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	font-size: 0.7rem;
+	line-height: 1.2;
+	font-weight: 600;
+	border-radius: var(--medama-radius-pill);
+	width: fit-content;
+}
+
+.medama-good {
+	background: rgba(16, 185, 129, 0.12);
+	color: #34d399;
+}
+
+.medama-bad {
+	background: rgba(239, 68, 68, 0.12);
+	color: #f87171;
+}
+
+.medama-muted {
+	color: var(--medama-text-muted);
+}
+
+/* -------------------------------------------------------------------- chart */
+
+.medama-chart-canvas {
+	position: relative;
+	height: 230px;
+}
+
+.medama-chart-unavailable .medama-chart-canvas {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ------------------------------------------------------------------- tables */
+
+.medama-table {
+	width: 100%;
+	margin-bottom: 0;
+	font-size: 0.8rem;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.medama-table thead th {
+	font-size: 0.68rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--medama-text-muted);
+	border-bottom: 1px solid var(--medama-border);
+	padding: 0.4rem 0.6rem;
+}
+
+.medama-table-plain th[scope='row'] {
+	width: 7rem;
+}
+
+.medama-row > th,
+.medama-row > td {
+	padding: 0.45rem 0.6rem;
+	border-bottom: 1px solid var(--medama-border);
+}
+
+.medama-row {
+	cursor: pointer;
+	transition: background 0.12s ease;
+}
+
+.medama-row:hover {
+	background: var(--medama-surface-subtle);
+}
+
+.medama-row-active {
+	background: var(--medama-emerald-glow) !important;
+}
+
+.medama-row-label {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+}
+
+.medama-row-label i {
+	color: var(--medama-text-muted);
+	width: 0.9rem;
+	text-align: center;
+	font-size: 0.72rem;
+}
+
+.medama-row-text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.medama-row-text > span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: 500;
+	color: var(--medama-text);
+	font-size: 0.8rem;
+}
+
+.medama-row-text small {
+	font-size: 0.7rem;
+	color: var(--medama-text-muted);
+}
+
+.medama-num {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+	font-weight: 500;
+	font-size: 0.8rem;
+}
+
+.medama-bar {
+	display: block;
+	height: 3px;
+	margin-top: 0.25rem;
+	background: var(--medama-surface-subtle);
+	border-radius: var(--medama-radius-pill);
+	overflow: hidden;
+}
+
+.medama-bar-fill {
+	display: block;
+	height: 100%;
+	background: var(--medama-emerald);
+	border-radius: var(--medama-radius-pill);
+	transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.medama-empty {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	color: var(--medama-text-muted);
+	font-size: 0.8rem;
+	margin-bottom: 0;
+	padding: 1.25rem 0;
+	justify-content: center;
+}
+
+/* ------------------------------------------------------------- Segmented Pill Tabs */
+
+.medama-tabs,
+.medama-periods {
+	display: inline-flex;
+	align-items: center;
+	background: #121215;
+	padding: 3px;
+	border-radius: 9999px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+	gap: 2px;
+}
+
+.medama-tab {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	gap: 0.45em !important;
+	margin: 0 !important;
+	padding: 0 0.85rem !important;
+	font-size: 0.75rem !important;
+	font-weight: 500 !important;
+	width: auto !important;
+	height: 28px !important;
+	min-height: 28px !important;
+	background: transparent !important;
+	border: 1px solid transparent !important;
+	color: #94a3b8 !important;
+	border-radius: 9999px !important;
+	cursor: pointer !important;
+	box-shadow: none !important;
+	transform: none !important;
+	transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+	line-height: 1 !important;
+	text-decoration: none !important;
+	user-select: none !important;
+	white-space: nowrap !important;
+}
+
+.medama-tab:hover {
+	color: #f8fafc !important;
+	background: rgba(255, 255, 255, 0.06) !important;
+	border-color: transparent !important;
+	transform: none !important;
+	box-shadow: none !important;
+}
+
+/* Active Floating Emerald Pill */
+.medama-tab.medama-tab-active,
+.medama-tab[aria-pressed='true'] {
+	background: #10b981 !important;
+	color: #022c22 !important;
+	font-weight: 600 !important;
+	border-color: #10b981 !important;
+	box-shadow: 0 2px 10px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+.medama-tab.medama-tab-active:hover,
+.medama-tab[aria-pressed='true']:hover {
+	background: #059669 !important;
+	border-color: #059669 !important;
+	color: #ffffff !important;
+}
+
+/* Card Table Header Tabs (Micro Pill) */
+.medama-tabs {
+	padding: 2px;
+}
+
+.medama-tabs .medama-tab {
+	height: 24px !important;
+	min-height: 24px !important;
+	padding: 0 0.65rem !important;
+	font-size: 0.72rem !important;
+}
+
+/* ------------------------------------------------------------------ filters */
+
+.medama-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	margin-bottom: 1.25rem;
+	padding: 0;
+	background: transparent;
+	border: none;
+	box-shadow: none;
+}
+
+.medama-custom-range {
+	display: flex;
+	gap: 0.4rem;
+	align-items: flex-end;
+}
+
+.medama-custom-range label {
+	margin-bottom: 0;
+	font-size: 0.72rem;
+	color: var(--medama-text-muted);
+}
+
+.medama-custom-range input {
+	margin-bottom: 0;
+	height: 28px;
+	padding: 0 0.65rem;
+	font-size: 0.75rem;
+	border-radius: 9999px;
+	border: 1px solid var(--medama-border);
+	background: #121215;
+	color: var(--medama-text);
+}
+
+.medama-active-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.75rem;
+}
+
+.medama-filter-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	cursor: pointer;
+	background: var(--medama-emerald-glow);
+	color: var(--medama-emerald-light);
+	border: 1px solid var(--medama-emerald-border);
+	height: 26px;
+	padding: 0 0.65rem;
+	border-radius: 9999px;
+	font-size: 0.72rem;
+	font-weight: 500;
+	transition: all 0.12s ease;
+}
+
+.medama-filter-pill:hover {
+	background: rgba(16, 185, 129, 0.2);
+}
+
+.medama-link-button {
+	background: none;
+	border: none;
+	padding: 0 0.25rem;
+	margin: 0;
+	width: auto;
+	color: var(--medama-text-muted);
+	font-size: 0.75rem;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.medama-link-button:hover {
+	color: var(--medama-emerald-light);
+}
+
+/* ----------------------------------------------------------------- websites */
+
+.medama-website {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.medama-website header {
+	margin-bottom: 0.5rem;
+}
+
+.medama-website header h2 a {
+	color: var(--medama-text);
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+.medama-website header h2 a:hover {
+	color: var(--medama-emerald-light);
+}
+
+.medama-website-visitors {
+	padding: 1.15rem 1.15rem;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.medama-website-visitors strong {
+	font-size: 1.5rem;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	color: var(--medama-text);
+	line-height: 1.15;
+}
+
+.medama-website-visitors small {
+	font-size: 0.72rem;
+	color: var(--medama-text-muted);
+	margin-top: 0.2rem;
+}
+
+.medama-website-actions {
+	display: flex;
+	gap: calc(var(--btn-gap) * var(--phi-sub));
+	align-items: center;
+	border-top: 1px solid var(--medama-border);
+	padding: 0.75rem 1.15rem;
+	margin-top: auto;
+	background: rgba(255, 255, 255, 0.015);
+}
+
+.medama-website-actions button,
+.medama-website-actions a {
+	margin-bottom: 0;
+}
+
+.medama-website-actions a[role='button'] {
+	flex: 1;
+	justify-content: center;
+	font-weight: 600;
+	font-size: var(--btn-md-font) !important;
+	height: var(--btn-md-height) !important;
+	min-height: var(--btn-md-height) !important;
+}
+
+.medama-website-actions button.secondary {
+	font-size: var(--btn-md-font) !important;
+	height: var(--btn-md-height) !important;
+	min-height: var(--btn-md-height) !important;
+}
+
+.medama-website-actions button.medama-danger {
+	font-size: var(--btn-md-font) !important;
+	height: var(--btn-md-height) !important;
+	min-height: var(--btn-md-height) !important;
+	width: var(--btn-md-height) !important;
+	padding: 0 !important;
+	flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ feedback */
+
+.medama-feedback {
+	margin: 0.4rem 0;
+	font-size: 0.78rem;
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+.medama-feedback:empty {
+	display: none;
+}
+
+.medama-feedback-ok {
+	color: #34d399;
+}
+
+.medama-feedback-error {
+	color: #f87171;
+}
+
+.medama-feedback-warn {
+	color: #fbbf24;
+}
+
+/* ----------------------------------------------------- modern compact modal */
+
+.medama-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	background: rgba(0, 0, 0, 0.78);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+
+.medama-modal article {
+	max-width: 28rem;
+	width: 100%;
+	margin: 0;
+	max-height: 85vh;
+	overflow-y: auto;
+	background: var(--medama-surface);
+	border: 1px solid var(--medama-border);
+	border-radius: var(--medama-radius);
+	box-shadow: var(--medama-shadow-lg);
+	padding: 1.1rem 1.25rem !important;
+}
+
+.medama-modal article header {
+	margin-bottom: 0.65rem !important;
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--medama-border);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.medama-modal article header h2 {
+	font-size: 0.92rem !important;
+	font-weight: 650;
+	letter-spacing: -0.01em;
+	color: var(--medama-text);
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	margin: 0 0 0.15rem 0 !important;
+}
+
+.medama-modal article header h2 i {
+	color: var(--medama-emerald);
+	font-size: 0.82rem;
+}
+
+.medama-modal article header p {
+	font-size: 0.75rem !important;
+	color: var(--medama-text-muted);
+	margin: 0 !important;
+}
+
+.medama-modal p {
+	font-size: 0.78rem;
+	color: var(--medama-text-muted);
+	margin: 0.5rem 0 0.45rem 0;
+}
+
+.medama-modal label {
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--medama-text-muted);
+	margin-bottom: 0.35rem;
+}
+
+.medama-modal input[type='text'],
+.medama-modal input[type='password'] {
+	padding: 0.38rem 0.65rem;
+	font-size: 0.8rem;
+	border-radius: var(--medama-radius-sm);
+	border: 1px solid var(--medama-border);
+	background: var(--medama-surface-subtle);
+	color: var(--medama-text);
+	margin-bottom: 0.5rem;
+}
+
+.medama-modal input:focus {
+	border-color: var(--medama-emerald);
+	box-shadow: 0 0 0 2px var(--medama-emerald-glow);
+}
+
+.medama-modal footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.45rem;
+	margin-top: 0.85rem !important;
+	padding-top: 0.75rem !important;
+	border-top: 1px solid var(--medama-border);
+}
+
+.medama-modal footer button {
+	padding: 0.45rem 0.85rem !important;
+	font-size: 0.82rem !important;
+	min-height: 32px;
+	font-weight: 500;
+	margin: 0 !important;
+}
+
+.medama-snippet {
+	background: var(--medama-surface-subtle);
+	border: 1px solid var(--medama-border);
+	padding: 0.65rem 0.8rem;
+	border-radius: var(--medama-radius-sm);
+	white-space: pre-wrap;
+	word-break: break-all;
+	font-size: 0.75rem;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	margin-bottom: 0;
+	color: #e4e4e7;
+	line-height: 1.4;
+}
+
+/* --------------------------------------------------------------------- login */
+
+.medama-auth {
+	max-width: 23rem;
+	margin: 4.5rem auto;
+}
+
+.medama-auth article,
+.medama-auth .medama-card {
+	background: var(--medama-surface);
+	border: 1px solid var(--medama-border);
+	border-radius: var(--medama-radius);
+	box-shadow: var(--medama-shadow-md);
+	padding: 0 !important;
+	overflow: hidden;
+}
+
+.medama-auth header,
+.medama-auth article > header,
+.medama-auth .medama-card > header {
+	padding: 1.15rem 1.35rem !important;
+	margin: 0 !important;
+	border-bottom: 1px solid var(--medama-border) !important;
+	background: var(--medama-surface-subtle) !important;
+	display: block;
+}
+
+.medama-auth header hgroup {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.medama-auth h1 {
+	font-size: 1.05rem;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 0 0 0.25rem 0 !important;
+	color: var(--medama-text);
+}
+
+.medama-auth header p {
+	font-size: 0.78rem;
+	color: var(--medama-text-muted);
+	margin: 0 !important;
+}
+
+.medama-auth form {
+	padding: 1.35rem;
+	margin: 0;
+}
+
+.medama-auth .medama-feedback {
+	margin: 1rem 1.35rem 0;
+}
+
+.medama-auth label {
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--medama-text-muted);
+	margin-bottom: 0.35rem;
+}
+
+.medama-auth input {
+	padding: 0.45rem 0.75rem;
+	font-size: 0.8rem;
+	border-radius: var(--medama-radius-sm);
+	border: 1px solid var(--medama-border);
+	background: var(--medama-surface-subtle);
+	color: var(--medama-text);
+	margin-bottom: 0.85rem;
+}
+
+.medama-auth input:focus {
+	border-color: var(--medama-emerald);
+	box-shadow: 0 0 0 2px var(--medama-emerald-glow);
+}
+
+.medama-block-button {
+	width: 100%;
+	height: 34px !important;
+	min-height: 34px !important;
+	margin-top: 0.5rem;
+}
+
+.medama-add-button {
+	width: auto;
+}
+
+/* ------------------------------------------------------------ loading state */
+
+.medama-loading::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 2px;
+	width: 100%;
+	z-index: 200;
+	background: var(--medama-emerald);
+	box-shadow: 0 0 8px var(--medama-emerald);
+	animation: medama-progress 1.2s ease-in-out infinite;
+}
+
+@keyframes medama-progress {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+/* -------------------------------------------------------------------- footer */
+
+.medama-footer {
+	margin-top: 2.5rem;
+	padding: 1rem 0;
+	border-top: 1px solid var(--medama-border);
+	color: var(--medama-text-muted);
+	font-size: 0.75rem;
+	text-align: center;
+}
+
+.medama-footer a {
+	color: var(--medama-text-muted);
+	text-decoration: none;
+}
+
+.medama-footer a:hover {
+	color: var(--medama-emerald-light);
+}
+
+@media (max-width: 640px) {
+	.medama-nav-label {
+		display: none;
+	}
+
+	.medama-table {
+		font-size: 0.75rem;
+	}
+
+	.medama-metric-value {
+		font-size: 1.35rem;
+	}
+
+	.medama-filters {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}

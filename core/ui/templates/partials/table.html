@@ -1,0 +1,68 @@
+{{- define "partial_table" -}}
+<header class="medama-panel-header">
+	<h2><i class="{{ .Icon }}" aria-hidden="true"></i> {{ .Title }}</h2>
+
+	{{ if .Tabs }}
+	<nav class="medama-tabs" aria-label="{{ .Title }} view">
+		{{ range .Tabs }}
+		<button type="button" class="medama-tab"
+			:class="panelValue('{{ $.TabKind }}') === '{{ .Value }}' && 'medama-tab-active'"
+			:aria-pressed="panelValue('{{ $.TabKind }}') === '{{ .Value }}'"
+			@click="setPanelValue('{{ $.TabKind }}', '{{ .Value }}')">
+			{{ .Label }}
+		</button>
+		{{ end }}
+	</nav>
+	{{ end }}
+</header>
+
+{{ if .Rows }}
+<table class="medama-table">
+	<thead>
+		<tr>
+			<th scope="col">{{ .LabelHeader }}</th>
+			<th scope="col" class="medama-num">{{ .MetricHeader }}</th>
+			{{ if .HasDetails }}
+			<th scope="col" class="medama-num">Pageviews</th>
+			<th scope="col" class="medama-num">Bounce</th>
+			<th scope="col" class="medama-num">Duration</th>
+			{{ end }}
+		</tr>
+	</thead>
+	<tbody>
+		{{ range .Rows }}
+		<tr class="medama-row"
+			data-filter-key="{{ .FilterKey }}"
+			data-filter-value="{{ .FilterValue }}"
+			{{ if .FilterKey }}
+			@click="toggleFilter($el.dataset.filterKey, $el.dataset.filterValue)"
+			:class="isFilterActive($el.dataset.filterKey, $el.dataset.filterValue) && 'medama-row-active'"
+			{{ end }}>
+			<th scope="row">
+				<span class="medama-row-label">
+					{{ if .Icon }}<i class="{{ .Icon }}" aria-hidden="true"></i>{{ end }}
+					<span class="medama-row-text">
+						<span>{{ .Label }}</span>
+						{{ if .Secondary }}<small class="medama-muted">{{ .Secondary }}</small>{{ end }}
+					</span>
+				</span>
+				<span class="medama-bar" aria-hidden="true">
+					<span class="medama-bar-fill" style="{{ barWidth .VisitorsPct }}"></span>
+				</span>
+			</th>
+			<td class="medama-num">{{ formatNumber .Visitors }}</td>
+			{{ if $.HasDetails }}
+			<td class="medama-num">{{ formatNumber .Pageviews }}</td>
+			<td class="medama-num">{{ formatPercent .Bounce }}</td>
+			<td class="medama-num">{{ formatDuration .Duration }}</td>
+			{{ end }}
+		</tr>
+		{{ end }}
+	</tbody>
+</table>
+{{ else }}
+<p class="medama-empty">
+	<i class="fa-solid fa-inbox" aria-hidden="true"></i> {{ .Empty }}
+</p>
+{{ end }}
+{{- end -}}

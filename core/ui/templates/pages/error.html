@@ -1,0 +1,17 @@
+{{- define "page_error" -}}
+<section class="medama-auth">
+	<article>
+		<header>
+			<hgroup>
+				<h1><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> {{ .Status }}</h1>
+				<p>{{ .Message }}</p>
+			</hgroup>
+		</header>
+		<footer>
+			<a href="/" role="button" class="medama-block-button">
+				<i class="fa-solid fa-house" aria-hidden="true"></i> Back to websites
+			</a>
+		</footer>
+	</article>
+</section>
+{{- end -}}

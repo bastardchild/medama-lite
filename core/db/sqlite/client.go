@@ -22,6 +22,24 @@ func NewClient(host string) (*Client, error) {
 		return nil, errors.Wrap(err, "sqlite")
 	}
 
+	// Recommended SQLite pragmas for concurrency, data safety, and performance.
+	pragmas := []string{
+		"PRAGMA journal_mode = WAL;",
+		"PRAGMA busy_timeout = 5000;",
+		"PRAGMA synchronous = NORMAL;",
+		"PRAGMA foreign_keys = ON;",
+	}
+
+	for _, pragma := range pragmas {
+		if _, err := db.Exec(pragma); err != nil {
+			_ = db.Close()
+			return nil, errors.Wrap(err, "sqlite: exec pragma")
+		}
+	}
+
+	// Restrict to a single open connection to prevent in-process database lock contention.
+	db.SetMaxOpenConns(1)
+
 	return &Client{
 		DB: db,
 	}, nil

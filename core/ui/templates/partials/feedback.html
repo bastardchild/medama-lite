@@ -1,0 +1,9 @@
+{{- define "partial_feedback" -}}
+{{ if .Message }}
+<p class="medama-feedback {{ if .Success }}medama-feedback-ok{{ else }}medama-feedback-error{{ end }}"
+	role="{{ if .Success }}status{{ else }}alert{{ end }}">
+	<i class="fa-solid {{ if .Success }}fa-circle-check{{ else }}fa-circle-exclamation{{ end }}"
+		aria-hidden="true"></i> {{ .Message }}
+</p>
+{{ end }}
+{{- end -}}

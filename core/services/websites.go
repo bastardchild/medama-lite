@@ -263,3 +263,16 @@ func (h *Handler) PostWebsites(
 		},
 	}, nil
 }
+
+// ReloadHostnames refreshes the in-memory hostname cache from the database.
+func (h *Handler) ReloadHostnames(ctx context.Context) error {
+	hostnames, err := h.db.ListAllHostnames(ctx)
+	if err != nil {
+		return errors.Wrap(err, "services: failed to reload hostnames")
+	}
+
+	h.hostnames.Clear()
+	h.hostnames.AddAll(hostnames)
+
+	return nil
+}

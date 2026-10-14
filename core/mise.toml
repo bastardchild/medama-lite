@@ -12,16 +12,15 @@ description = "Seed local dev databases with deterministic dashboard data"
 run = "go run ./tools/seed"
 
 [tasks.build]
-description = "Generate assets and build the local server binary"
-depends = [":generate"]
+description = "Build the local server binary"
 env = { CGO_ENABLED = "1" }
-run = "go build -o ./bin/main ./cmd/"
+run = "go build -o ./bin/medamalite ./cmd/"
 
 [tasks.start]
 description = "Build and run the server binary"
 depends = [":build"]
 raw_args = true
-run = "./bin/main"
+run = "./bin/medamalite"
 
 [tasks."generate:go"]
 description = "Regenerate Go API code from OpenAPI"
@@ -37,11 +36,9 @@ sources = [
 outputs = ["./api/**/*.go"]
 
 [tasks.generate]
-description = "Regenerate Go code and embedded dashboard/tracker assets"
+description = "Regenerate Go code from the OpenAPI specification"
 run = [
   { task = ":generate:go" },
-  { task = "//dashboard:embed" },
-  { task = "//tracker:embed" },
 ]
 
 [tasks.deps]
@@ -82,56 +79,50 @@ run = "go test -v -shuffle on ./..."
 
 [tasks.release]
 description = "Build a local release binary"
-depends = [":generate"]
 env = { CGO_ENABLED = "1", GOFLAGS = "-buildvcs=false" }
-run = 'go build -o ./bin/main -ldflags "-s -w" -trimpath ./cmd/'
+run = 'go build -o ./bin/medamalite -ldflags "-s -w" -trimpath ./cmd/'
 
 [tasks."release:docker"]
 description = "Build the Docker release binary"
-depends = [":generate"]
 env = { CGO_ENABLED = "1", GOFLAGS = "-buildvcs=false" }
 run = [
-  'go build -o ./bin/main -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
-  "chmod +x ./bin/main",
+  'go build -o ./bin/medamalite -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
+  "chmod +x ./bin/medamalite",
   'echo "docker build done"',
 ]
 
 [tasks."release:linux:amd64"]
 description = "Build the linux/amd64 release binary"
-depends = [":generate"]
 env = { CGO_ENABLED = "1", GOOS = "linux", GOARCH = "amd64", GOFLAGS = "-buildvcs=false" }
 run = [
-  'go build -o ./bin/medama_linux_amd64 -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
-  "chmod +x ./bin/medama_linux_amd64",
+  'go build -o ./bin/medamalite_linux_amd64 -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
+  "chmod +x ./bin/medamalite_linux_amd64",
   'echo "linux/amd64 build done"',
 ]
 
 [tasks."release:linux:arm64"]
 description = "Build the linux/arm64 release binary"
-depends = [":generate"]
 env = { CGO_ENABLED = "1", GOOS = "linux", GOARCH = "arm64", GOFLAGS = "-buildvcs=false", CC = "aarch64-linux-gnu-gcc", CXX = "aarch64-linux-gnu-g++" }
 run = [
-  'go build -o ./bin/medama_linux_arm64 -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
-  "chmod +x ./bin/medama_linux_arm64",
+  'go build -o ./bin/medamalite_linux_arm64 -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
+  "chmod +x ./bin/medamalite_linux_arm64",
   'echo "linux/arm64 build done"',
 ]
 
 [tasks."release:darwin:amd64"]
 description = "Build the darwin/amd64 release binary"
-depends = [":generate"]
 env = { CGO_ENABLED = "1", GOOS = "darwin", GOARCH = "amd64", GOFLAGS = "-buildvcs=false" }
 run = [
-  'go build -o ./bin/medama_darwin_amd64 -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
-  "chmod +x ./bin/medama_darwin_amd64",
+  'go build -o ./bin/medamalite_darwin_amd64 -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
+  "chmod +x ./bin/medamalite_darwin_amd64",
   'echo "darwin/amd64 build done"',
 ]
 
 [tasks."release:darwin:arm64"]
 description = "Build the darwin/arm64 release binary"
-depends = [":generate"]
 env = { CGO_ENABLED = "1", GOOS = "darwin", GOARCH = "arm64", GOFLAGS = "-buildvcs=false" }
 run = [
-  'go build -o ./bin/medama_darwin_arm64 -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
-  "chmod +x ./bin/medama_darwin_arm64",
+  'go build -o ./bin/medamalite_darwin_arm64 -ldflags "-s -w -X main.Version=$VERSION -X main.Commit=$COMMIT_SHA" -trimpath ./cmd/',
+  "chmod +x ./bin/medamalite_darwin_arm64",
   'echo "darwin/arm64 build done"',
 ]

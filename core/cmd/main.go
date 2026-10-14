@@ -82,18 +82,18 @@ func run(ctx context.Context, args []string) error {
 			return flag.ErrHelp
 		}
 
-		return fmt.Errorf("medama: unknown command %q", cmd)
+		return fmt.Errorf("medamalite: unknown command %q", cmd)
 	}
 }
 
 func GetVersion() string {
 	if Version != "" && Commit != "" {
-		return fmt.Sprintf("Medama Analytics %s, commit=%s", Version, Commit)
+		return fmt.Sprintf("MedamaLite %s, commit=%s", Version, Commit)
 	}
 
 	if Commit != "" {
-		return "Medama Analytics commit=" + Commit
+		return "MedamaLite commit=" + Commit
 	}
 
-	return "Medama Development Build"
+	return "MedamaLite Development Build"
 }

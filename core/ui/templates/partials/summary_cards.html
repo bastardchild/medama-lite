@@ -1,0 +1,28 @@
+{{- define "partial_summary" -}}
+{{ template "partial_summary_cards" . }}
+{{ template "partial_chart" . }}
+{{- end -}}
+
+
+{{- define "partial_summary_cards" -}}
+<div class="medama-metrics">
+	{{ range .Metrics }}
+	<article class="medama-card medama-metric">
+		<header>
+			<span class="medama-metric-icon"><i class="{{ .Icon }}" aria-hidden="true"></i></span>
+			<span class="medama-metric-label">{{ .Label }}</span>
+		</header>
+		<p class="medama-metric-value">{{ .Value }}</p>
+		{{ if .HasDelta }}
+		<p class="medama-metric-delta {{ if .Good }}medama-good{{ else }}medama-bad{{ end }}">
+			<i class="fa-solid {{ if .DeltaUp }}fa-arrow-trend-up{{ else }}fa-arrow-trend-down{{ end }}"
+				aria-hidden="true"></i>
+			{{ .Delta }} <span class="medama-muted">vs previous period</span>
+		</p>
+		{{ else }}
+		<p class="medama-metric-delta medama-muted">No comparison period</p>
+		{{ end }}
+	</article>
+	{{ end }}
+</div>
+{{- end -}}

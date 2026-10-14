@@ -12,10 +12,12 @@ This project is open to contributions from all levels and any help is appreciate
 
 Install the following tools for the project:
 
-- [Go](https://go.dev/dl/) - API server (core)
+- [Go](https://go.dev/dl/) - API server and server-rendered dashboard (core)
 - [gcc](https://gcc.gnu.org/install/) - Required for CGO in Go (core)
-- [Bun](https://bun.sh/docs/installation) - JavaScript runtime (dashboard, tracker)
 - [mise-en-place](https://mise.jdx.dev/) - Tool and workflow manager
+
+MedamaLite does **not** require Node.js, npm or Bun. The tracker scripts are frozen
+inside `core/client/scripts` and the dashboard is rendered server-side by the Go binary.
 
 We recommend using [mise-en-place](https://mise.jdx.dev/) as a convenient version manager tool for all the languages and tools required for this project.
 
@@ -23,7 +25,7 @@ We recommend using [mise-en-place](https://mise.jdx.dev/) as a convenient versio
 
 We use mise tasks to run project workflows. Run `mise install` from the repository root first, then use the package tasks for normal development.
 
-To start the API and dashboard together, run:
+To start the API and the server-rendered dashboard (a single binary), run:
 
 ```bash
 mise dev
@@ -35,15 +37,6 @@ To seed local databases with deterministic dashboard data before starting the ap
 mise run seed -- --reset
 ```
 
-You can still run each service separately when needed:
-
-```bash
-mise run core:dev
-mise run dashboard:dev
-```
-
-More details on the development setup can be found in the respective sub-project READMEs.
+More details on the development setup can be found in the core README.
 
 - [Core](./core/README.md)
-- [Dashboard](./dashboard/README.md)
-- [Tracker](./tracker/README.md)

@@ -1,0 +1,17 @@
+{{- define "partial_chart" -}}
+<article class="medama-card medama-chart-card">
+	<header>
+		<h2><i class="fa-solid fa-chart-area" aria-hidden="true"></i> Visitors over time</h2>
+	</header>
+
+	<div class="medama-chart" data-medama-chart>
+		<script type="application/json" class="medama-chart-data">{{ .Chart.JSON }}</script>
+		<div class="medama-chart-canvas">
+			<canvas role="img" aria-label="Timeseries of unique visitors and pageviews"></canvas>
+		</div>
+		<noscript>
+			<p class="medama-muted">Enable JavaScript to see the timeseries chart.</p>
+		</noscript>
+	</div>
+</article>
+{{- end -}}

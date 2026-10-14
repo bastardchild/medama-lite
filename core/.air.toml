@@ -3,18 +3,18 @@ testdata_dir = "testdata"
 tmp_dir = "bin"
 
 [build]
-  args_bin = ["start", "-logger=pretty", "-level=debug", "-corsorigins=http://localhost:8080,http://localhost:5173"]
-  bin = "./bin/main"
-  cmd = "go build -o ./bin/main ./cmd/"
+  args_bin = ["start", "-logger=pretty", "-level=debug"]
+  bin = "./bin/medamalite"
+  cmd = "go build -o ./bin/medamalite ./cmd/"
   delay = 1000
-  exclude_dir = ["assets", "bin", "vendor", "testdata", "api", "migrations", "client"]
+  exclude_dir = ["assets", "bin", "vendor", "testdata", "api", "migrations"]
   exclude_file = []
   exclude_regex = ["_test.go", ".*\\.gen\\.go"]
   exclude_unchanged = false
   follow_symlink = false
   full_bin = ""
   include_dir = []
-  include_ext = ["go", "tpl", "tmpl", "html", "yaml"]
+  include_ext = ["go", "tpl", "tmpl", "html", "yaml", "js", "css", "svg"]
   include_file = []
   kill_delay = "3s"
   log = "build-errors.log"

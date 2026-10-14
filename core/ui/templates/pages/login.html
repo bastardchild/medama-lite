@@ -1,0 +1,34 @@
+{{- define "page_login" -}}
+<section class="medama-auth">
+	<article class="medama-card">
+		<header>
+			<hgroup>
+				<h1><span class="medama-brand-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></span> MedamaLite</h1>
+				<p>Sign in to your analytics dashboard.</p>
+			</hgroup>
+		</header>
+
+		{{ if .Error }}
+		<p class="medama-feedback medama-feedback-error" role="alert">
+			<i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> {{ .Error }}
+		</p>
+		{{ end }}
+
+		<form method="post" action="/ui/auth/login">
+			<label for="username">
+				Username
+				<input type="text" id="username" name="username" autocomplete="username" required autofocus>
+			</label>
+
+			<label for="password">
+				Password
+				<input type="password" id="password" name="password" autocomplete="current-password" required>
+			</label>
+
+			<button type="submit" class="medama-block-button">
+				<i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Sign in
+			</button>
+		</form>
+	</article>
+</section>
+{{- end -}}

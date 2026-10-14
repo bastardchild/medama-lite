@@ -2,7 +2,6 @@ package generate
 
 import (
 	"embed"
-	"io/fs"
 )
 
 // OpenAPI Codegen.
@@ -14,12 +13,6 @@ import (
 //go:embed openapi.yaml
 var OpenAPIDocument embed.FS
 
-// Embed SPA client.
-//
-//go:embed all:client
-var spaClient embed.FS
-
-// SPA Client.
-func SPAClient() (fs.FS, error) {
-	return fs.Sub(spaClient, "client")
-}
+// The React SPA client is no longer embedded here. MedamaLite renders all pages
+// server-side from the `ui` package, and the frozen tracker scripts live in the
+// `client` package.

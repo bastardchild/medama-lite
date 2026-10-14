@@ -32,9 +32,6 @@ jobs:
           working-directory: core
           problem-matchers: true
 
-      - name: Lint dashboard
-        run: mise run //dashboard:lint:ci
-
   test:
     runs-on: ubuntu-22.04
     steps:
