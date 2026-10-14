@@ -52,7 +52,7 @@ LABEL org.opencontainers.image.title="MedamaLite" \
 # ca-certificates is required for AutoSSL / ACME; tzdata keeps the timezone to
 # country mapping used by the tracker accurate.
 RUN apt-get update \
-	&& apt-get install -y --no-install-recommends ca-certificates tzdata \
+	&& apt-get install -y --no-install-recommends ca-certificates tzdata gosu \
 	&& rm -rf /var/lib/apt/lists/*
 
 # HOME must point at a directory that actually exists and is writable. The
@@ -67,14 +67,14 @@ ENV PORT=8080 \
 WORKDIR /app
 
 COPY --from=build /out/medamalite /app/medamalite
-
-# The DuckDB and SQLite files live on a mounted volume so analytics survive
-# container restarts.
-RUN mkdir -p /app/data && chown -R nobody:nogroup /app/data
-
-USER nobody:nogroup
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh \
+	&& mkdir -p /app/data \
+	&& usermod -d /app/data nobody \
+	&& chown -R nobody:nogroup /app/data
 
 EXPOSE 8080
 VOLUME ["/app/data"]
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/app/medamalite", "start", "-env"]

@@ -27,12 +27,8 @@ services:
       - "127.0.0.1:8081:8080"
 
     volumes:
-      # The container runs as nobody (uid 65534). Docker Desktop maps bind mounts
-      # permissively, so this works as-is on Windows/macOS. On Linux the host
-      # directory must be writable by that uid, otherwise create it first with:
-      #   mkdir -p data && sudo chown -R 65534:65534 data
-      # (or replace this with a named volume, e.g. `medamalite-data:/app/data`,
-      # which inherits the ownership baked into the image).
+      # Data directory is automatically initialized with correct permissions by
+      # the container's entrypoint script using gosu (nobody:nogroup).
       - ./data:/app/data
 
     environment:

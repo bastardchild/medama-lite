@@ -1,0 +1,30 @@
+# Caddyfile Example for MedamaLite Reverse Proxy
+#
+# Replace analytics.yourdomain.com with your actual analytics domain.
+# Ensure DNS A/CNAME record points to your VPS IP address.
+
+analytics.yourdomain.com {
+    # Enable HTTP compression (Gzip and Zstandard)
+    encode gzip zstd
+
+    # Forward all requests to MedamaLite container running on localhost:8081
+    reverse_proxy 127.0.0.1:8081 {
+        # Forward client IP for geolocation/country detection and rate limiting
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+
+        # Health check options (optional)
+        fail_duration 10s
+        max_fails 3
+    }
+
+    # Access logging
+    log {
+        output file /var/log/caddy/medama_access.log {
+            roll_size 10mb
+            roll_keep 5
+        }
+    }
+}
