@@ -202,7 +202,7 @@ func (s *StartCommand) Run(ctx context.Context) error {
 
 	// We need to add additional static routes for the web app.
 	mux := http.NewServeMux()
-	mux.Handle("/api/", http.StripPrefix("/api", apiHandler))
+	mux.Handle("/api/", http.StripPrefix("/api", middlewares.EventContentTypeMiddleware(apiHandler)))
 
 	// Start CPU profiling if enabled.
 	if s.Server.Profiler {

@@ -8,10 +8,5 @@ go tool github.com/ogen-go/ogen/cmd/ogen --target api --clean openapi.yaml
 # workaround to patch api/oas_request_decoders_gen.go to add text/plain to the list of
 # accepted content types for the /event/hit endpoint and still use the same JSON decoder.
 
-# This runs perl and replaces a line number with a new line.
-# This should be verified after each update to the OpenAPI specification or ogen-go
-# in case the line number changes.
-#
-# perl is more portable across different systems compared to sed.
-# Line 280
-perl -i -pe 's/^.*$// if $. == 280; $. == 280 and print "    case ct == \"application/json\", ct == \"text/plain\":"' ./api/oas_request_decoders_gen.go
+# This runs perl to match decodePostEventHitRequest specifically and patch accepted content types.
+perl -0777 -i -pe 's/(func \(s \*Server\) decodePostEventHitRequest[\s\S]*?switch \{\n\s*case ct == "application\/json"):\n/\1, ct == "text\/plain":\n/g' ./api/oas_request_decoders_gen.go
