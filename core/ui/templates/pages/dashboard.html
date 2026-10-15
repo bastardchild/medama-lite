@@ -60,7 +60,6 @@
 
 	<section id="panel-summary" class="medama-summary"
 		hx-get="/ui/partials/{{ .Hostname }}/summary"
-		:hx-get="panelUrl('summary')"
 		hx-trigger="medama:refresh from:window"
 		hx-target="this"
 		hx-swap="innerHTML">
@@ -70,7 +69,6 @@
 	<div class="medama-grid medama-analytics-grid">
 		<section id="panel-pages" class="medama-panel"
 			hx-get="/ui/partials/{{ .Hostname }}/pages"
-			:hx-get="panelUrl('pages')"
 			hx-trigger="medama:refresh from:window"
 			hx-target="this"
 			hx-swap="innerHTML">
@@ -79,7 +77,6 @@
 
 		<section id="panel-referrers" class="medama-panel"
 			hx-get="/ui/partials/{{ .Hostname }}/referrers"
-			:hx-get="panelUrl('referrers')"
 			hx-trigger="medama:refresh from:window"
 			hx-target="this"
 			hx-swap="innerHTML">
@@ -88,7 +85,6 @@
 
 		<section id="panel-devices" class="medama-panel"
 			hx-get="/ui/partials/{{ .Hostname }}/devices"
-			:hx-get="panelUrl('devices')"
 			hx-trigger="medama:refresh from:window"
 			hx-target="this"
 			hx-swap="innerHTML">
@@ -97,7 +93,6 @@
 
 		<section id="panel-countries" class="medama-panel"
 			hx-get="/ui/partials/{{ .Hostname }}/countries"
-			:hx-get="panelUrl('countries')"
 			hx-trigger="medama:refresh from:window"
 			hx-target="this"
 			hx-swap="innerHTML">
@@ -107,7 +102,6 @@
 
 	<section id="panel-events" class="medama-panel"
 		hx-get="/ui/partials/{{ .Hostname }}/events"
-		:hx-get="panelUrl('events')"
 		hx-trigger="medama:refresh from:window"
 		hx-target="this"
 		hx-swap="innerHTML">

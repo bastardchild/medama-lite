@@ -439,7 +439,22 @@
 		document.addEventListener('alpine:init', registerAlpine);
 	}
 
-	// -------------------------------------------------------------- HTMX hooks
+	// Forward active dashboard search params (period, filters, tab, utm) to partial requests.
+	document.addEventListener('htmx:configRequest', function (event) {
+		var path = event.detail && event.detail.path;
+		if (path && path.indexOf('/ui/partials/') === 0) {
+			if (!event.detail.parameters) {
+				event.detail.parameters = {};
+			}
+			var search = window.location.search;
+			if (search) {
+				var params = new window.URLSearchParams(search);
+				params.forEach(function (value, key) {
+					event.detail.parameters[key] = value;
+				});
+			}
+		}
+	});
 
 	// Swap error responses too, so a failing panel can show its inline message
 	// instead of silently keeping stale content.
@@ -453,7 +468,11 @@
 	});
 
 	document.addEventListener('htmx:afterSwap', function (event) {
-		renderCharts(event.target);
+		var target = (event.detail && event.detail.target) || event.target;
+		renderCharts(target);
+		if (window.Alpine && target) {
+			window.Alpine.initTree(target);
+		}
 	});
 
 	var pending = 0;
