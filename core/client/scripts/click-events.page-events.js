@@ -35,9 +35,9 @@
  * @see https://github.com/google/closure-compiler/wiki/FAQ#closure-compiler-inlined-all-my-strings-which-made-my-code-size-bigger-why-did-it-do-that
  */
 (function () {
-	// If server-side rendering, bail out. We use document instead of window here as Deno does have
+	// If server-side rendering or automated browser, bail out. We use document instead of window here as Deno does have
 	// a window object even on the server.
-	if (!document) {
+	if (!document || navigator.webdriver) {
 		return;
 	}
 

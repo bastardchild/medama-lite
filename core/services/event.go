@@ -132,6 +132,92 @@ const (
 	IsBotThreshold = 2
 )
 
+// botSignatures contains lowercase substrings identifying modern AI crawlers,
+// Chinese aggressive scrapers, and headless automation frameworks.
+var botSignatures = [...]string{
+	// AI Crawlers & LLM Scrapers
+	"bytespider",
+	"bytedance",
+	"gptbot",
+	"chatgpt-user",
+	"oai-searchbot",
+	"claudebot",
+	"claude-web",
+	"anthropic-ai",
+	"perplexitybot",
+	"google-extended",
+	"cohere-ai",
+	"meta-externalagent",
+	"facebookbot",
+	"amazonbot",
+	"applebot-extended",
+	"diffbot",
+	"omgili",
+	"youbot",
+	"crawlson",
+	"deepseek",
+	"moonshot",
+	"minimax",
+	"timpibot",
+
+	// Chinese Crawlers & Aggressive Scrapers
+	"baiduspider",
+	"baidu-yisou",
+	"petalbot",
+	"aspiegelbot",
+	"sogou",
+	"yisouspider",
+	"shenma",
+	"360spider",
+	"haosouspider",
+	"toutiaospider",
+	"yidian",
+	"youdaobot",
+
+	// Headless Browsers & Automation Frameworks
+	"headlesschrome",
+	"headless",
+	"puppeteer",
+	"playwright",
+	"selenium",
+	"webdriver",
+	"phantomjs",
+	"nightmare",
+	"cypress",
+
+	// General HTTP Client Scrapers
+	"python-requests",
+	"python-urllib",
+	"aiohttp",
+	"httpx",
+	"scrapy",
+	"go-http-client",
+	"axios",
+	"node-fetch",
+	"got/",
+	"undici",
+	"apache-httpclient",
+	"okhttp",
+	"postmanruntime",
+	"insomnia",
+}
+
+// isBotUserAgent checks if the User-Agent matches any known bot or headless scraper signature.
+func isBotUserAgent(userAgent string) bool {
+	if userAgent == "" {
+		return true
+	}
+
+	ua := strings.ToLower(userAgent)
+	for _, sig := range botSignatures {
+		if strings.Contains(ua, sig) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (h *Handler) PostEventHit(
 	ctx context.Context,
 	req api.EventHit,
@@ -154,6 +240,13 @@ func (h *Handler) PostEventHit(
 	// Check if IP is blocked
 	if h.RuntimeConfig.IPFilter.HasIP(clientIP) {
 		log.Debug().Msg("hit: client IP is blocked")
+		return &api.PostEventHitNoContent{}, nil
+	}
+
+	// Check for AI crawlers, Chinese scrapers, and headless browsers.
+	rawUserAgent := reqBody.Header.Get("User-Agent")
+	if isBotUserAgent(rawUserAgent) {
+		log.Debug().Str("user_agent", rawUserAgent).Msg("hit: bot/headless user agent dropped")
 		return &api.PostEventHitNoContent{}, nil
 	}
 
@@ -267,9 +360,17 @@ func (h *Handler) PostEventHit(
 			return &api.PostEventHitNoContent{}, nil
 		}
 
-		// Get utm source, medium, and campaigm from URL query parameters.
+		// Get utm source, medium, and campaign from URL query parameters.
 		queries := req.EventLoad.U.Query()
 		utmSource := queries.Get("utm_source")
+		if utmSource == "" {
+			for _, key := range []string{"ref", "REF", "source", "via"} {
+				if val := queries.Get(key); val != "" {
+					utmSource = val
+					break
+				}
+			}
+		}
 		utmMedium := queries.Get("utm_medium")
 		utmCampaign := queries.Get("utm_campaign")
 
