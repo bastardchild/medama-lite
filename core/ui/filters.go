@@ -2,6 +2,7 @@ package ui
 
 import (
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -67,11 +68,27 @@ type FilterState struct {
 	UTM string
 	// Tab selects the device panel mode: browsers, os or devices.
 	Tab string
+	// PagesPage selects the page number for top pages pagination (1-indexed).
+	PagesPage int
+	// PagesLimit selects the page size for top pages (10, 25, 50).
+	PagesLimit int
 }
 
 // parseFilterState reads the dashboard filters from the request query string.
 func parseFilterState(r *http.Request) FilterState {
 	query := r.URL.Query()
+
+	pagesPage := 1
+	if p, err := strconv.Atoi(query.Get("page")); err == nil && p > 1 {
+		pagesPage = p
+	}
+
+	pagesLimit := 10
+	if l, err := strconv.Atoi(query.Get("pages_limit")); err == nil {
+		if l == 25 || l == 50 {
+			pagesLimit = l
+		}
+	}
 
 	state := FilterState{
 		Period:      query.Get("period"),
@@ -88,6 +105,8 @@ func parseFilterState(r *http.Request) FilterState {
 		UTMCampaign: query.Get("utm_campaign"),
 		UTM:         query.Get("utm"),
 		Tab:         query.Get("tab"),
+		PagesPage:   pagesPage,
+		PagesLimit:  pagesLimit,
 	}
 
 	if state.Period == "" {

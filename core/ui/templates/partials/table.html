@@ -52,7 +52,7 @@
 			</th>
 			<td class="medama-num">{{ formatNumber .Visitors }}</td>
 			{{ if $.HasDetails }}
-			<td class="medama-num">{{ formatNumber .Pageviews }}</td>
+			<td class="medama-num">{{ if gt .Pageviews 0 }}{{ formatNumber .Pageviews }}{{ else }}-{{ end }}</td>
 			<td class="medama-num">{{ formatPercent .Bounce }}</td>
 			<td class="medama-num">{{ formatDuration .Duration }}</td>
 			{{ end }}
@@ -60,6 +60,46 @@
 		{{ end }}
 	</tbody>
 </table>
+{{ if .Pagination }}
+<footer class="medama-pagination">
+	<div class="medama-pagination-info">
+		<span>Showing {{ .Pagination.StartRow }}–{{ .Pagination.EndRow }} of {{ formatNumber .Pagination.TotalRows }}</span>
+		<select class="medama-pagination-select"
+			aria-label="Items per page"
+			name="pages_limit"
+			onchange="localStorage.setItem('medama_pages_limit', this.value)"
+			hx-get="/ui/partials/{{ $.Hostname }}/pages?page=1"
+			hx-include="this"
+			hx-target="#panel-pages"
+			hx-swap="innerHTML">
+			{{ range $.Pagination.PageSizes }}
+			<option value="{{ . }}" {{ if eq . $.Pagination.PageSize }}selected{{ end }}>{{ . }} / page</option>
+			{{ end }}
+		</select>
+	</div>
+	<div class="medama-pagination-controls">
+		<button type="button" class="medama-pagination-btn"
+			{{ if not .Pagination.HasPrev }}disabled{{ else }}
+			hx-get="/ui/partials/{{ $.Hostname }}/pages?page={{ .Pagination.PrevPage }}&pages_limit={{ .Pagination.PageSize }}"
+			hx-target="#panel-pages"
+			hx-swap="innerHTML"
+			{{ end }}
+			aria-label="Previous page">
+			<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+		</button>
+		<span class="medama-pagination-page">Page {{ .Pagination.Page }} of {{ .Pagination.TotalPages }}</span>
+		<button type="button" class="medama-pagination-btn"
+			{{ if not .Pagination.HasNext }}disabled{{ else }}
+			hx-get="/ui/partials/{{ $.Hostname }}/pages?page={{ .Pagination.NextPage }}&pages_limit={{ .Pagination.PageSize }}"
+			hx-target="#panel-pages"
+			hx-swap="innerHTML"
+			{{ end }}
+			aria-label="Next page">
+			<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+		</button>
+	</div>
+</footer>
+{{ end }}
 {{ else }}
 <p class="medama-empty">
 	<i class="fa-solid fa-inbox" aria-hidden="true"></i> {{ .Empty }}

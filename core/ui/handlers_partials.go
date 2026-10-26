@@ -275,7 +275,7 @@ func summaryMetrics(current, previous *model.StatsSummarySingle) []Metric {
 
 // applyIntDelta fills in the delta fields of a card.
 func applyIntDelta(metric *Metric, current, previous int, higherIsBetter bool) {
-	if previous == 0 {
+	if previous <= 0 || current <= 0 {
 		return
 	}
 
@@ -290,7 +290,7 @@ func applyIntDelta(metric *Metric, current, previous int, higherIsBetter bool) {
 
 // applyFloatDelta fills in the delta fields of a card from a 0..1 ratio.
 func applyFloatDelta(metric *Metric, current, previous float32, higherIsBetter bool) {
-	if previous == 0 {
+	if previous < 0 || current < 0 {
 		return
 	}
 
@@ -303,40 +303,86 @@ func applyFloatDelta(metric *Metric, current, previous float32, higherIsBetter b
 	metric.Good = up == higherIsBetter
 }
 
-// buildPages loads the top pages table.
+// buildPages loads the top pages table with server-side pagination.
 func (s *Server) buildPages(ctx context.Context, partial *partialContext) (TableView, error) {
-	pages, err := s.analytics.GetWebsitePages(ctx, partial.Filters)
+	pageSize := partial.State.PagesLimit
+	if pageSize <= 0 {
+		pageSize = 10
+	}
+	page := partial.State.PagesPage
+	if page <= 0 {
+		page = 1
+	}
+
+	pageFilters := *partial.Filters
+	pageFilters.Limit = pageSize
+	pageFilters.Offset = (page - 1) * pageSize
+
+	pages, err := s.analytics.GetWebsitePages(ctx, &pageFilters)
 	if err != nil {
 		return TableView{}, fmt.Errorf("pages: %w", err)
 	}
 
+	totalRows, err := s.analytics.GetWebsitePagesCount(ctx, partial.Filters)
+	if err != nil {
+		totalRows = len(pages)
+	}
+
+	totalPages := 1
+	if totalRows > 0 {
+		totalPages = (totalRows + pageSize - 1) / pageSize
+	}
+
+	startRow := 0
+	endRow := 0
+	if totalRows > 0 {
+		startRow = (page-1)*pageSize + 1
+		endRow = startRow + len(pages) - 1
+		if endRow > totalRows {
+			endRow = totalRows
+		}
+	}
+
 	rows := make([]TableRow, 0, len(pages))
 
-	for _, page := range pages {
+	for _, p := range pages {
 		rows = append(rows, TableRow{
-			Label:        page.Pathname,
+			Label:        p.Pathname,
 			FilterKey:    "path",
-			FilterValue:  page.Pathname,
+			FilterValue:  p.Pathname,
 			Icon:         "fa-solid fa-file-lines",
-			Visitors:     page.Visitors,
-			VisitorsPct:  page.VisitorsPercentage,
-			Pageviews:    page.Pageviews,
-			PageviewsPct: page.PageviewsPercentage,
-			Bounce:       page.BounceRate,
-			Duration:     page.Duration,
+			Visitors:     p.Visitors,
+			VisitorsPct:  p.VisitorsPercentage,
+			Pageviews:    p.Pageviews,
+			PageviewsPct: p.PageviewsPercentage,
+			Bounce:       p.BounceRate,
+			Duration:     p.Duration,
 		})
 	}
 
 	view := TableView{
-		Hostname: partial.Hostname,
-		Title:    "Top pages",
-		Icon:     "fa-solid fa-file-lines",
-		Empty:    "No pageviews recorded for this period.",
-		Rows:     rows,
+		Hostname:     partial.Hostname,
+		Title:        "Top pages",
+		Icon:         "fa-solid fa-file-lines",
+		Empty:        "No pageviews recorded for this period.",
+		Rows:         rows,
+		LabelHeader:  "Page",
+		MetricHeader: metricVisitors,
+		HasDetails:   true,
+		Pagination: &Pagination{
+			Page:       page,
+			PageSize:   pageSize,
+			TotalRows:  totalRows,
+			TotalPages: totalPages,
+			StartRow:   startRow,
+			EndRow:     endRow,
+			HasPrev:    page > 1,
+			HasNext:    page < totalPages,
+			PrevPage:   page - 1,
+			NextPage:   page + 1,
+			PageSizes:  []int{10, 25, 50},
+		},
 	}
-	view.LabelHeader = "Page"
-	view.MetricHeader = metricVisitors
-	view.HasDetails = true
 
 	return view, nil
 }
@@ -376,6 +422,7 @@ func (s *Server) buildReferrers(ctx context.Context, partial *partialContext) (T
 				Icon:        "fa-solid fa-tag",
 				Visitors:    source.Visitors,
 				VisitorsPct: source.VisitorsPercentage,
+				Pageviews:   source.Pageviews,
 				Bounce:      source.BounceRate,
 				Duration:    source.Duration,
 			})
@@ -398,6 +445,7 @@ func (s *Server) buildReferrers(ctx context.Context, partial *partialContext) (T
 				Icon:        "fa-solid fa-tag",
 				Visitors:    medium.Visitors,
 				VisitorsPct: medium.VisitorsPercentage,
+				Pageviews:   medium.Pageviews,
 				Bounce:      medium.BounceRate,
 				Duration:    medium.Duration,
 			})
@@ -420,6 +468,7 @@ func (s *Server) buildReferrers(ctx context.Context, partial *partialContext) (T
 				Icon:        "fa-solid fa-bullhorn",
 				Visitors:    campaign.Visitors,
 				VisitorsPct: campaign.VisitorsPercentage,
+				Pageviews:   campaign.Pageviews,
 				Bounce:      campaign.BounceRate,
 				Duration:    campaign.Duration,
 			})
@@ -444,6 +493,7 @@ func (s *Server) buildReferrers(ctx context.Context, partial *partialContext) (T
 				Icon:        "fa-solid fa-globe",
 				Visitors:    referrer.Visitors,
 				VisitorsPct: referrer.VisitorsPercentage,
+				Pageviews:   referrer.Pageviews,
 				Bounce:      referrer.BounceRate,
 				Duration:    referrer.Duration,
 			})
@@ -487,6 +537,7 @@ func (s *Server) buildDevices(ctx context.Context, partial *partialContext) (Tab
 				Icon:        "fa-solid fa-microchip",
 				Visitors:    item.Visitors,
 				VisitorsPct: item.VisitorsPercentage,
+				Pageviews:   item.Pageviews,
 				Bounce:      item.BounceRate,
 				Duration:    item.Duration,
 			})
@@ -509,6 +560,7 @@ func (s *Server) buildDevices(ctx context.Context, partial *partialContext) (Tab
 				Icon:        deviceIcon(device.Device),
 				Visitors:    device.Visitors,
 				VisitorsPct: device.VisitorsPercentage,
+				Pageviews:   device.Pageviews,
 				Bounce:      device.BounceRate,
 				Duration:    device.Duration,
 			})
@@ -531,6 +583,7 @@ func (s *Server) buildDevices(ctx context.Context, partial *partialContext) (Tab
 				Icon:        "fa-solid fa-window-maximize",
 				Visitors:    browser.Visitors,
 				VisitorsPct: browser.VisitorsPercentage,
+				Pageviews:   browser.Pageviews,
 				Bounce:      browser.BounceRate,
 				Duration:    browser.Duration,
 			})
@@ -557,6 +610,7 @@ func (s *Server) buildCountries(ctx context.Context, partial *partialContext) (T
 			Icon:        "fa-solid fa-location-dot",
 			Visitors:    country.Visitors,
 			VisitorsPct: country.VisitorsPercentage,
+			Pageviews:   country.Pageviews,
 			Bounce:      country.BounceRate,
 			Duration:    country.Duration,
 		})

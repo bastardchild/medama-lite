@@ -123,6 +123,23 @@ type TableView struct {
 	TabKind string
 	// HasDetails shows the pageviews, bounce rate and duration columns.
 	HasDetails bool
+	// Pagination holds optional pagination controls and status.
+	Pagination *Pagination
+}
+
+// Pagination holds pagination state for paginated table views.
+type Pagination struct {
+	Page       int
+	PageSize   int
+	TotalRows  int
+	TotalPages int
+	StartRow   int
+	EndRow     int
+	HasPrev    bool
+	HasNext    bool
+	PrevPage   int
+	NextPage   int
+	PageSizes  []int
 }
 
 // Tab is a single entry in a tabbed panel header.

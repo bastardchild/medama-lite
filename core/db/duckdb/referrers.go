@@ -36,6 +36,7 @@ func (c *Client) GetWebsiteReferrersSummary(
 			referrerStmt,
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 		).
 		From("views").
 		Where(filter.WhereString()).
@@ -99,6 +100,7 @@ func (c *Client) GetWebsiteReferrers(
 			referrerStmt,
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 			BounceRateStmt,
 			DurationStmt,
 		).

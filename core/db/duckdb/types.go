@@ -29,6 +29,7 @@ func (c *Client) GetWebsiteBrowsersSummary(
 			"ua_browser AS browser",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 		).
 		From("views").
 		Where(filter.WhereString()).
@@ -84,6 +85,7 @@ func (c *Client) GetWebsiteBrowsers(
 			"ua_browser AS browser",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 			BounceRateStmt,
 			DurationStmt,
 		).
@@ -137,6 +139,7 @@ func (c *Client) GetWebsiteOSSummary(
 			"ua_os AS os",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 		).
 		From("views").
 		Where(filter.WhereString()).
@@ -186,6 +189,7 @@ func (c *Client) GetWebsiteOS(ctx context.Context, filter *db.Filters) ([]*model
 			"ua_os AS os",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 			BounceRateStmt,
 			DurationStmt,
 		).
@@ -239,6 +243,7 @@ func (c *Client) GetWebsiteDevicesSummary(
 			"ua_device_type AS device",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 		).
 		From("views").
 		Where(filter.WhereString()).
@@ -291,6 +296,7 @@ func (c *Client) GetWebsiteDevices(
 			"ua_device_type AS device",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 			BounceRateStmt,
 			DurationStmt,
 		).

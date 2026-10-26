@@ -28,6 +28,7 @@ func (c *Client) GetWebsiteUTMSourcesSummary(
 			"utm_source AS source",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 		).
 		From("views").
 		Where(filter.WhereString()).
@@ -84,6 +85,7 @@ func (c *Client) GetWebsiteUTMSources(
 			"utm_source AS source",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 			BounceRateStmt,
 			DurationStmt,
 		).
@@ -137,6 +139,7 @@ func (c *Client) GetWebsiteUTMMediumsSummary(
 			"utm_medium AS medium",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 		).
 		From("views").
 		Where(filter.WhereString()).
@@ -193,6 +196,7 @@ func (c *Client) GetWebsiteUTMMediums(
 			"utm_medium AS medium",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 			BounceRateStmt,
 			DurationStmt,
 		).
@@ -246,6 +250,7 @@ func (c *Client) GetWebsiteUTMCampaignsSummary(
 			"utm_campaign AS campaign",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 		).
 		From("views").
 		Where(filter.WhereString()).
@@ -302,6 +307,7 @@ func (c *Client) GetWebsiteUTMCampaigns(
 			"utm_campaign AS campaign",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 			BounceRateStmt,
 			DurationStmt,
 		).

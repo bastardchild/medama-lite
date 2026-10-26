@@ -160,3 +160,34 @@ func (c *Client) GetWebsitePages(
 
 	return pages, nil
 }
+
+// GetWebsitePagesCount returns the total number of distinct pages matching the filters.
+func (c *Client) GetWebsitePagesCount(
+	ctx context.Context,
+	filter *db.Filters,
+) (int, error) {
+	query := qb.New().
+		Select("COUNT(DISTINCT pathname) FILTER (WHERE is_unique_page = true)").
+		From("views").
+		Where(filter.WhereString())
+
+	if filter.IsCustomEvent {
+		query = query.
+			LeftJoin(EventsJoinStmt)
+	}
+
+	rows, err := c.NamedQueryContext(ctx, query.Build(), filter.Args(nil))
+	if err != nil {
+		return 0, errors.Wrap(err, "db")
+	}
+	defer rows.Close()
+
+	var count int
+	if rows.Next() {
+		if err := rows.Scan(&count); err != nil {
+			return 0, errors.Wrap(err, "db")
+		}
+	}
+
+	return count, nil
+}

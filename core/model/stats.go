@@ -63,6 +63,7 @@ type StatsReferrerSummary struct {
 	Referrer           string  `db:"referrer"`
 	Visitors           int     `db:"visitors"`
 	VisitorsPercentage float32 `db:"visitors_percentage"`
+	Pageviews          int     `db:"pageviews"`
 }
 
 type StatsReferrers struct {
@@ -75,6 +76,7 @@ type StatsUTMSourcesSummary struct {
 	Source             string  `db:"source"`
 	Visitors           int     `db:"visitors"`
 	VisitorsPercentage float32 `db:"visitors_percentage"`
+	Pageviews          int     `db:"pageviews"`
 }
 
 type StatsUTMSources struct {
@@ -87,6 +89,7 @@ type StatsUTMMediumsSummary struct {
 	Medium             string  `db:"medium"`
 	Visitors           int     `db:"visitors"`
 	VisitorsPercentage float32 `db:"visitors_percentage"`
+	Pageviews          int     `db:"pageviews"`
 }
 
 type StatsUTMMediums struct {
@@ -99,6 +102,7 @@ type StatsUTMCampaignsSummary struct {
 	Campaign           string  `db:"campaign"`
 	Visitors           int     `db:"visitors"`
 	VisitorsPercentage float32 `db:"visitors_percentage"`
+	Pageviews          int     `db:"pageviews"`
 }
 
 type StatsUTMCampaigns struct {
@@ -111,6 +115,7 @@ type StatsBrowsersSummary struct {
 	Browser            string  `db:"browser"`
 	Visitors           int     `db:"visitors"`
 	VisitorsPercentage float32 `db:"visitors_percentage"`
+	Pageviews          int     `db:"pageviews"`
 }
 
 type StatsBrowsers struct {
@@ -123,6 +128,7 @@ type StatsOSSummary struct {
 	OS                 string  `db:"os"`
 	Visitors           int     `db:"visitors"`
 	VisitorsPercentage float32 `db:"visitors_percentage"`
+	Pageviews          int     `db:"pageviews"`
 }
 
 type StatsOS struct {
@@ -135,6 +141,7 @@ type StatsDevicesSummary struct {
 	Device             string  `db:"device"`
 	Visitors           int     `db:"visitors"`
 	VisitorsPercentage float32 `db:"visitors_percentage"`
+	Pageviews          int     `db:"pageviews"`
 }
 
 type StatsDevices struct {
@@ -147,6 +154,7 @@ type StatsCountriesSummary struct {
 	Country            string  `db:"country"`
 	Visitors           int     `db:"visitors"`
 	VisitorsPercentage float32 `db:"visitors_percentage"`
+	Pageviews          int     `db:"pageviews"`
 }
 
 type StatsCountries struct {

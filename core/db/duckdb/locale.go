@@ -29,6 +29,7 @@ func (c *Client) GetWebsiteCountriesSummary(
 			"country",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 		).
 		From("views").
 		Where(filter.WhereString()).
@@ -81,6 +82,7 @@ func (c *Client) GetWebsiteCountries(
 			"country",
 			VisitorsStmt,
 			VisitorsPercentageStmt,
+			PageviewsStmt,
 			BounceRateStmt,
 			DurationStmt,
 		).

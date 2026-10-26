@@ -91,7 +91,7 @@
 
 [TestGetWebsiteSummaryFilterAll - 10]
 {
- "BounceRate": 0,
+ "BounceRate": 0.6,
  "Duration": 3389,
  "Pageviews": 28,
  "Visitors": 17

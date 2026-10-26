@@ -1,33 +1,33 @@
 
 [TestGetWebsiteReferrers/Base - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:google.com Visitors:167163 VisitorsPercentage:0.3346} BounceRate:0.487 Duration:5018}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:166318 VisitorsPercentage:0.3329} BounceRate:0.4931 Duration:4985}
-&{StatsReferrerSummary:{Referrer: Visitors:166176 VisitorsPercentage:0.3326} BounceRate:0.4885 Duration:5005}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:167163 VisitorsPercentage:0.3346 Pageviews:333272} BounceRate:0.487 Duration:5018}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:166318 VisitorsPercentage:0.3329 Pageviews:333867} BounceRate:0.4931 Duration:4985}
+&{StatsReferrerSummary:{Referrer: Visitors:166176 VisitorsPercentage:0.3326 Pageviews:332861} BounceRate:0.4885 Duration:5005}
 
 ---
 
 [TestGetWebsiteReferrers/Browser - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:55495 VisitorsPercentage:0.3341} BounceRate:0.4955 Duration:4944}
-&{StatsReferrerSummary:{Referrer: Visitors:55307 VisitorsPercentage:0.333} BounceRate:0.4888 Duration:4980}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:55288 VisitorsPercentage:0.3329} BounceRate:0.4888 Duration:5016}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:55495 VisitorsPercentage:0.3341 Pageviews:111231} BounceRate:0.4955 Duration:4944}
+&{StatsReferrerSummary:{Referrer: Visitors:55307 VisitorsPercentage:0.333 Pageviews:111222} BounceRate:0.4888 Duration:4980}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:55288 VisitorsPercentage:0.3329 Pageviews:110426} BounceRate:0.4888 Duration:5016}
 
 ---
 
 [TestGetWebsiteReferrers/Country - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer: Visitors:18505 VisitorsPercentage:0.335} BounceRate:0.4867 Duration:5008}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:18444 VisitorsPercentage:0.3339} BounceRate:0.4881 Duration:5025}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:18294 VisitorsPercentage:0.3312} BounceRate:0.4912 Duration:4938}
+&{StatsReferrerSummary:{Referrer: Visitors:18505 VisitorsPercentage:0.335 Pageviews:37029} BounceRate:0.4867 Duration:5008}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:18444 VisitorsPercentage:0.3339 Pageviews:36710} BounceRate:0.4881 Duration:5025}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:18294 VisitorsPercentage:0.3312 Pageviews:36994} BounceRate:0.4912 Duration:4938}
 
 ---
 
 [TestGetWebsiteReferrers/Device - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer: Visitors:6264 VisitorsPercentage:0.3357} BounceRate:0.476 Duration:4975}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:6262 VisitorsPercentage:0.3356} BounceRate:0.4772 Duration:5099}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:6135 VisitorsPercentage:0.3288} BounceRate:0.5029 Duration:4901}
+&{StatsReferrerSummary:{Referrer: Visitors:6264 VisitorsPercentage:0.3357 Pageviews:12394} BounceRate:0.476 Duration:4975}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:6262 VisitorsPercentage:0.3356 Pageviews:12336} BounceRate:0.4772 Duration:5099}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:6135 VisitorsPercentage:0.3288 Pageviews:12440} BounceRate:0.5029 Duration:4901}
 
 ---
 
@@ -38,81 +38,81 @@ RECORDS:
 
 [TestGetWebsiteReferrers/Language - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer: Visitors:3189 VisitorsPercentage:0.3362} BounceRate:0.4789 Duration:4998}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:3159 VisitorsPercentage:0.333} BounceRate:0.4686 Duration:5096}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:3138 VisitorsPercentage:0.3308} BounceRate:0.4997 Duration:4909}
+&{StatsReferrerSummary:{Referrer: Visitors:3189 VisitorsPercentage:0.3362 Pageviews:6267} BounceRate:0.4789 Duration:4998}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:3159 VisitorsPercentage:0.333 Pageviews:6248} BounceRate:0.4686 Duration:5096}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:3138 VisitorsPercentage:0.3308 Pageviews:6274} BounceRate:0.4997 Duration:4909}
 
 ---
 
 [TestGetWebsiteReferrers/OS - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer: Visitors:1055 VisitorsPercentage:0.3386} BounceRate:0.5159 Duration:4735}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:1036 VisitorsPercentage:0.3325} BounceRate:0.5087 Duration:4809}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:1025 VisitorsPercentage:0.3289} BounceRate:0.4477 Duration:5257}
+&{StatsReferrerSummary:{Referrer: Visitors:1055 VisitorsPercentage:0.3386 Pageviews:2092} BounceRate:0.5159 Duration:4735}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:1036 VisitorsPercentage:0.3325 Pageviews:2043} BounceRate:0.5087 Duration:4809}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:1025 VisitorsPercentage:0.3289 Pageviews:2030} BounceRate:0.4477 Duration:5257}
 
 ---
 
 [TestGetWebsiteReferrers/Pathname - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:381 VisitorsPercentage:0.3495} BounceRate:0.5196 Duration:4728}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:355 VisitorsPercentage:0.3257} BounceRate:0.45 Duration:5308}
-&{StatsReferrerSummary:{Referrer: Visitors:354 VisitorsPercentage:0.3248} BounceRate:0.4908 Duration:5411}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:381 VisitorsPercentage:0.3495 Pageviews:726} BounceRate:0.5196 Duration:4728}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:355 VisitorsPercentage:0.3257 Pageviews:698} BounceRate:0.45 Duration:5308}
+&{StatsReferrerSummary:{Referrer: Visitors:354 VisitorsPercentage:0.3248 Pageviews:689} BounceRate:0.4908 Duration:5411}
 
 ---
 
 [TestGetWebsiteReferrers/Referrer - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:381 VisitorsPercentage:1} BounceRate:0.5196 Duration:4728}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:381 VisitorsPercentage:1 Pageviews:726} BounceRate:0.5196 Duration:4728}
 
 ---
 
 [TestGetWebsiteReferrers/UTMCampaign - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:116 VisitorsPercentage:1} BounceRate:0.5439 Duration:4732}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:116 VisitorsPercentage:1 Pageviews:220} BounceRate:0.5439 Duration:4732}
 
 ---
 
 [TestGetWebsiteReferrers/UTMMedium - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:35 VisitorsPercentage:1} BounceRate:0.4615 Duration:6547}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:35 VisitorsPercentage:1 Pageviews:67} BounceRate:0.4615 Duration:6547}
 
 ---
 
 [TestGetWebsiteReferrers/UTMSource - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:17 VisitorsPercentage:1} BounceRate:0 Duration:3389}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:17 VisitorsPercentage:1 Pageviews:28} BounceRate:0.6 Duration:3389}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/Base - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:google.com Visitors:167163 VisitorsPercentage:0.3346} BounceRate:0.487 Duration:5018}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:166318 VisitorsPercentage:0.3329} BounceRate:0.4931 Duration:4985}
-&{StatsReferrerSummary:{Referrer: Visitors:166176 VisitorsPercentage:0.3326} BounceRate:0.4885 Duration:5005}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:167163 VisitorsPercentage:0.3346 Pageviews:333272} BounceRate:0.487 Duration:5018}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:166318 VisitorsPercentage:0.3329 Pageviews:333867} BounceRate:0.4931 Duration:4985}
+&{StatsReferrerSummary:{Referrer: Visitors:166176 VisitorsPercentage:0.3326 Pageviews:332861} BounceRate:0.4885 Duration:5005}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/Browser - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:55495 VisitorsPercentage:0.3341} BounceRate:0.4955 Duration:4944}
-&{StatsReferrerSummary:{Referrer: Visitors:55307 VisitorsPercentage:0.333} BounceRate:0.4888 Duration:4980}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:55288 VisitorsPercentage:0.3329} BounceRate:0.4888 Duration:5016}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:55495 VisitorsPercentage:0.3341 Pageviews:111231} BounceRate:0.4955 Duration:4944}
+&{StatsReferrerSummary:{Referrer: Visitors:55307 VisitorsPercentage:0.333 Pageviews:111222} BounceRate:0.4888 Duration:4980}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:55288 VisitorsPercentage:0.3329 Pageviews:110426} BounceRate:0.4888 Duration:5016}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/Country - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer: Visitors:18505 VisitorsPercentage:0.335} BounceRate:0.4867 Duration:5008}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:18444 VisitorsPercentage:0.3339} BounceRate:0.4881 Duration:5025}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:18294 VisitorsPercentage:0.3312} BounceRate:0.4912 Duration:4938}
+&{StatsReferrerSummary:{Referrer: Visitors:18505 VisitorsPercentage:0.335 Pageviews:37029} BounceRate:0.4867 Duration:5008}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:18444 VisitorsPercentage:0.3339 Pageviews:36710} BounceRate:0.4881 Duration:5025}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:18294 VisitorsPercentage:0.3312 Pageviews:36994} BounceRate:0.4912 Duration:4938}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/Device - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer: Visitors:6264 VisitorsPercentage:0.3357} BounceRate:0.476 Duration:4975}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:6262 VisitorsPercentage:0.3356} BounceRate:0.4772 Duration:5099}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:6135 VisitorsPercentage:0.3288} BounceRate:0.5029 Duration:4901}
+&{StatsReferrerSummary:{Referrer: Visitors:6264 VisitorsPercentage:0.3357 Pageviews:12394} BounceRate:0.476 Duration:4975}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:6262 VisitorsPercentage:0.3356 Pageviews:12336} BounceRate:0.4772 Duration:5099}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:6135 VisitorsPercentage:0.3288 Pageviews:12440} BounceRate:0.5029 Duration:4901}
 
 ---
 
@@ -123,81 +123,81 @@ RECORDS:
 
 [TestGetWebsiteReferrersGrouped/Language - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer: Visitors:3189 VisitorsPercentage:0.3362} BounceRate:0.4789 Duration:4998}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:3159 VisitorsPercentage:0.333} BounceRate:0.4686 Duration:5096}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:3138 VisitorsPercentage:0.3308} BounceRate:0.4997 Duration:4909}
+&{StatsReferrerSummary:{Referrer: Visitors:3189 VisitorsPercentage:0.3362 Pageviews:6267} BounceRate:0.4789 Duration:4998}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:3159 VisitorsPercentage:0.333 Pageviews:6248} BounceRate:0.4686 Duration:5096}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:3138 VisitorsPercentage:0.3308 Pageviews:6274} BounceRate:0.4997 Duration:4909}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/OS - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer: Visitors:1055 VisitorsPercentage:0.3386} BounceRate:0.5159 Duration:4735}
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:1036 VisitorsPercentage:0.3325} BounceRate:0.5087 Duration:4809}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:1025 VisitorsPercentage:0.3289} BounceRate:0.4477 Duration:5257}
+&{StatsReferrerSummary:{Referrer: Visitors:1055 VisitorsPercentage:0.3386 Pageviews:2092} BounceRate:0.5159 Duration:4735}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:1036 VisitorsPercentage:0.3325 Pageviews:2043} BounceRate:0.5087 Duration:4809}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:1025 VisitorsPercentage:0.3289 Pageviews:2030} BounceRate:0.4477 Duration:5257}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/Pathname - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:381 VisitorsPercentage:0.3495} BounceRate:0.5196 Duration:4728}
-&{StatsReferrerSummary:{Referrer:google.com Visitors:355 VisitorsPercentage:0.3257} BounceRate:0.45 Duration:5308}
-&{StatsReferrerSummary:{Referrer: Visitors:354 VisitorsPercentage:0.3248} BounceRate:0.4908 Duration:5411}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:381 VisitorsPercentage:0.3495 Pageviews:726} BounceRate:0.5196 Duration:4728}
+&{StatsReferrerSummary:{Referrer:google.com Visitors:355 VisitorsPercentage:0.3257 Pageviews:698} BounceRate:0.45 Duration:5308}
+&{StatsReferrerSummary:{Referrer: Visitors:354 VisitorsPercentage:0.3248 Pageviews:689} BounceRate:0.4908 Duration:5411}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/Referrer - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:381 VisitorsPercentage:1} BounceRate:0.5196 Duration:4728}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:381 VisitorsPercentage:1 Pageviews:726} BounceRate:0.5196 Duration:4728}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/UTMCampaign - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:116 VisitorsPercentage:1} BounceRate:0.5439 Duration:4732}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:116 VisitorsPercentage:1 Pageviews:220} BounceRate:0.5439 Duration:4732}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/UTMMedium - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:35 VisitorsPercentage:1} BounceRate:0.4615 Duration:6547}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:35 VisitorsPercentage:1 Pageviews:67} BounceRate:0.4615 Duration:6547}
 
 ---
 
 [TestGetWebsiteReferrersGrouped/UTMSource - 1]
 RECORDS:
-&{StatsReferrerSummary:{Referrer:medama.io Visitors:17 VisitorsPercentage:1} BounceRate:0 Duration:3389}
+&{StatsReferrerSummary:{Referrer:medama.io Visitors:17 VisitorsPercentage:1 Pageviews:28} BounceRate:0.6 Duration:3389}
 
 ---
 
 [TestGetWebsiteReferrersSummary/Base - 1]
 RECORDS:
-&{Referrer:google.com Visitors:167163 VisitorsPercentage:0.3346}
-&{Referrer:medama.io Visitors:166318 VisitorsPercentage:0.3329}
-&{Referrer: Visitors:166176 VisitorsPercentage:0.3326}
+&{Referrer:google.com Visitors:167163 VisitorsPercentage:0.3346 Pageviews:333272}
+&{Referrer:medama.io Visitors:166318 VisitorsPercentage:0.3329 Pageviews:333867}
+&{Referrer: Visitors:166176 VisitorsPercentage:0.3326 Pageviews:332861}
 
 ---
 
 [TestGetWebsiteReferrersSummary/Browser - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:55495 VisitorsPercentage:0.3341}
-&{Referrer: Visitors:55307 VisitorsPercentage:0.333}
-&{Referrer:google.com Visitors:55288 VisitorsPercentage:0.3329}
+&{Referrer:medama.io Visitors:55495 VisitorsPercentage:0.3341 Pageviews:111231}
+&{Referrer: Visitors:55307 VisitorsPercentage:0.333 Pageviews:111222}
+&{Referrer:google.com Visitors:55288 VisitorsPercentage:0.3329 Pageviews:110426}
 
 ---
 
 [TestGetWebsiteReferrersSummary/Country - 1]
 RECORDS:
-&{Referrer: Visitors:18505 VisitorsPercentage:0.335}
-&{Referrer:google.com Visitors:18444 VisitorsPercentage:0.3339}
-&{Referrer:medama.io Visitors:18294 VisitorsPercentage:0.3312}
+&{Referrer: Visitors:18505 VisitorsPercentage:0.335 Pageviews:37029}
+&{Referrer:google.com Visitors:18444 VisitorsPercentage:0.3339 Pageviews:36710}
+&{Referrer:medama.io Visitors:18294 VisitorsPercentage:0.3312 Pageviews:36994}
 
 ---
 
 [TestGetWebsiteReferrersSummary/Device - 1]
 RECORDS:
-&{Referrer: Visitors:6264 VisitorsPercentage:0.3357}
-&{Referrer:google.com Visitors:6262 VisitorsPercentage:0.3356}
-&{Referrer:medama.io Visitors:6135 VisitorsPercentage:0.3288}
+&{Referrer: Visitors:6264 VisitorsPercentage:0.3357 Pageviews:12394}
+&{Referrer:google.com Visitors:6262 VisitorsPercentage:0.3356 Pageviews:12336}
+&{Referrer:medama.io Visitors:6135 VisitorsPercentage:0.3288 Pageviews:12440}
 
 ---
 
@@ -208,81 +208,81 @@ RECORDS:
 
 [TestGetWebsiteReferrersSummary/Language - 1]
 RECORDS:
-&{Referrer: Visitors:3189 VisitorsPercentage:0.3362}
-&{Referrer:google.com Visitors:3159 VisitorsPercentage:0.333}
-&{Referrer:medama.io Visitors:3138 VisitorsPercentage:0.3308}
+&{Referrer: Visitors:3189 VisitorsPercentage:0.3362 Pageviews:6267}
+&{Referrer:google.com Visitors:3159 VisitorsPercentage:0.333 Pageviews:6248}
+&{Referrer:medama.io Visitors:3138 VisitorsPercentage:0.3308 Pageviews:6274}
 
 ---
 
 [TestGetWebsiteReferrersSummary/OS - 1]
 RECORDS:
-&{Referrer: Visitors:1055 VisitorsPercentage:0.3386}
-&{Referrer:medama.io Visitors:1036 VisitorsPercentage:0.3325}
-&{Referrer:google.com Visitors:1025 VisitorsPercentage:0.3289}
+&{Referrer: Visitors:1055 VisitorsPercentage:0.3386 Pageviews:2092}
+&{Referrer:medama.io Visitors:1036 VisitorsPercentage:0.3325 Pageviews:2043}
+&{Referrer:google.com Visitors:1025 VisitorsPercentage:0.3289 Pageviews:2030}
 
 ---
 
 [TestGetWebsiteReferrersSummary/Pathname - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:381 VisitorsPercentage:0.3495}
-&{Referrer:google.com Visitors:355 VisitorsPercentage:0.3257}
-&{Referrer: Visitors:354 VisitorsPercentage:0.3248}
+&{Referrer:medama.io Visitors:381 VisitorsPercentage:0.3495 Pageviews:726}
+&{Referrer:google.com Visitors:355 VisitorsPercentage:0.3257 Pageviews:698}
+&{Referrer: Visitors:354 VisitorsPercentage:0.3248 Pageviews:689}
 
 ---
 
 [TestGetWebsiteReferrersSummary/Referrer - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:381 VisitorsPercentage:1}
+&{Referrer:medama.io Visitors:381 VisitorsPercentage:1 Pageviews:726}
 
 ---
 
 [TestGetWebsiteReferrersSummary/UTMCampaign - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:116 VisitorsPercentage:1}
+&{Referrer:medama.io Visitors:116 VisitorsPercentage:1 Pageviews:220}
 
 ---
 
 [TestGetWebsiteReferrersSummary/UTMMedium - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:35 VisitorsPercentage:1}
+&{Referrer:medama.io Visitors:35 VisitorsPercentage:1 Pageviews:67}
 
 ---
 
 [TestGetWebsiteReferrersSummary/UTMSource - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:17 VisitorsPercentage:1}
+&{Referrer:medama.io Visitors:17 VisitorsPercentage:1 Pageviews:28}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/Base - 1]
 RECORDS:
-&{Referrer:google.com Visitors:167163 VisitorsPercentage:0.3346}
-&{Referrer:medama.io Visitors:166318 VisitorsPercentage:0.3329}
-&{Referrer: Visitors:166176 VisitorsPercentage:0.3326}
+&{Referrer:google.com Visitors:167163 VisitorsPercentage:0.3346 Pageviews:333272}
+&{Referrer:medama.io Visitors:166318 VisitorsPercentage:0.3329 Pageviews:333867}
+&{Referrer: Visitors:166176 VisitorsPercentage:0.3326 Pageviews:332861}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/Browser - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:55495 VisitorsPercentage:0.3341}
-&{Referrer: Visitors:55307 VisitorsPercentage:0.333}
-&{Referrer:google.com Visitors:55288 VisitorsPercentage:0.3329}
+&{Referrer:medama.io Visitors:55495 VisitorsPercentage:0.3341 Pageviews:111231}
+&{Referrer: Visitors:55307 VisitorsPercentage:0.333 Pageviews:111222}
+&{Referrer:google.com Visitors:55288 VisitorsPercentage:0.3329 Pageviews:110426}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/Country - 1]
 RECORDS:
-&{Referrer: Visitors:18505 VisitorsPercentage:0.335}
-&{Referrer:google.com Visitors:18444 VisitorsPercentage:0.3339}
-&{Referrer:medama.io Visitors:18294 VisitorsPercentage:0.3312}
+&{Referrer: Visitors:18505 VisitorsPercentage:0.335 Pageviews:37029}
+&{Referrer:google.com Visitors:18444 VisitorsPercentage:0.3339 Pageviews:36710}
+&{Referrer:medama.io Visitors:18294 VisitorsPercentage:0.3312 Pageviews:36994}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/Device - 1]
 RECORDS:
-&{Referrer: Visitors:6264 VisitorsPercentage:0.3357}
-&{Referrer:google.com Visitors:6262 VisitorsPercentage:0.3356}
-&{Referrer:medama.io Visitors:6135 VisitorsPercentage:0.3288}
+&{Referrer: Visitors:6264 VisitorsPercentage:0.3357 Pageviews:12394}
+&{Referrer:google.com Visitors:6262 VisitorsPercentage:0.3356 Pageviews:12336}
+&{Referrer:medama.io Visitors:6135 VisitorsPercentage:0.3288 Pageviews:12440}
 
 ---
 
@@ -293,48 +293,48 @@ RECORDS:
 
 [TestGetWebsiteReferrersSummaryGrouped/Language - 1]
 RECORDS:
-&{Referrer: Visitors:3189 VisitorsPercentage:0.3362}
-&{Referrer:google.com Visitors:3159 VisitorsPercentage:0.333}
-&{Referrer:medama.io Visitors:3138 VisitorsPercentage:0.3308}
+&{Referrer: Visitors:3189 VisitorsPercentage:0.3362 Pageviews:6267}
+&{Referrer:google.com Visitors:3159 VisitorsPercentage:0.333 Pageviews:6248}
+&{Referrer:medama.io Visitors:3138 VisitorsPercentage:0.3308 Pageviews:6274}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/OS - 1]
 RECORDS:
-&{Referrer: Visitors:1055 VisitorsPercentage:0.3386}
-&{Referrer:medama.io Visitors:1036 VisitorsPercentage:0.3325}
-&{Referrer:google.com Visitors:1025 VisitorsPercentage:0.3289}
+&{Referrer: Visitors:1055 VisitorsPercentage:0.3386 Pageviews:2092}
+&{Referrer:medama.io Visitors:1036 VisitorsPercentage:0.3325 Pageviews:2043}
+&{Referrer:google.com Visitors:1025 VisitorsPercentage:0.3289 Pageviews:2030}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/Pathname - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:381 VisitorsPercentage:0.3495}
-&{Referrer:google.com Visitors:355 VisitorsPercentage:0.3257}
-&{Referrer: Visitors:354 VisitorsPercentage:0.3248}
+&{Referrer:medama.io Visitors:381 VisitorsPercentage:0.3495 Pageviews:726}
+&{Referrer:google.com Visitors:355 VisitorsPercentage:0.3257 Pageviews:698}
+&{Referrer: Visitors:354 VisitorsPercentage:0.3248 Pageviews:689}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/Referrer - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:381 VisitorsPercentage:1}
+&{Referrer:medama.io Visitors:381 VisitorsPercentage:1 Pageviews:726}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/UTMCampaign - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:116 VisitorsPercentage:1}
+&{Referrer:medama.io Visitors:116 VisitorsPercentage:1 Pageviews:220}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/UTMMedium - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:35 VisitorsPercentage:1}
+&{Referrer:medama.io Visitors:35 VisitorsPercentage:1 Pageviews:67}
 
 ---
 
 [TestGetWebsiteReferrersSummaryGrouped/UTMSource - 1]
 RECORDS:
-&{Referrer:medama.io Visitors:17 VisitorsPercentage:1}
+&{Referrer:medama.io Visitors:17 VisitorsPercentage:1 Pageviews:28}
 
 ---

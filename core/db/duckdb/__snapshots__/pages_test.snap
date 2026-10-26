@@ -78,7 +78,7 @@ RECORDS:
 
 [TestGetWebsitePages/UTMSource - 1]
 RECORDS:
-&{StatsPagesSummary:{Pathname:/ Visitors:16 VisitorsPercentage:1} Pageviews:28 PageviewsPercentage:1 BounceRate:0 Duration:3389}
+&{StatsPagesSummary:{Pathname:/ Visitors:16 VisitorsPercentage:1} Pageviews:28 PageviewsPercentage:1 BounceRate:0.6 Duration:3389}
 
 ---
 

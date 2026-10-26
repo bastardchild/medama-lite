@@ -169,16 +169,20 @@ func formatNumber(value int) string {
 }
 
 // formatPercent converts a 0..1 ratio into a human readable percentage, e.g.
-// 0.4213 -> "42.1%".
+// 0.4213 -> "42.1%". If ratio is negative, it indicates no data is available.
 func formatPercent(ratio float32) string {
+	if ratio < 0 {
+		return "-"
+	}
+
 	return strconv.FormatFloat(float64(ratio)*percentScale, 'f', percentDecimals, float32Bits) + "%"
 }
 
 // formatDuration converts a duration in milliseconds into a compact label, e.g.
-// 83000 -> "1m 23s".
+// 83000 -> "1m 23s". If ms <= 0, it indicates no duration data is available.
 func formatDuration(ms int) string {
 	if ms <= 0 {
-		return "0s"
+		return "-"
 	}
 
 	duration := time.Duration(ms) * time.Millisecond

@@ -16,12 +16,12 @@ const (
 	// BouncePercentageStmt is the bounce rate of the visits.
 	// The bounce rate is calculated as bounce count / total unique visitors that have a duration_ms.
 	BounceRateStmt = `--sql
-		CASE WHEN COUNT(*) FILTER (WHERE is_unique_user = true AND duration_ms IS NOT NULL) > 5 THEN
+		CASE WHEN COUNT(*) FILTER (WHERE is_unique_user = true AND duration_ms IS NOT NULL) > 0 THEN
 		ifnull(ROUND(
             COUNT(*) FILTER (WHERE is_unique_user = true AND duration_ms BETWEEN 100 AND 5000) * 1.0 /
             NULLIF(COUNT(*) FILTER (WHERE is_unique_user = true AND duration_ms IS NOT NULL), 0)
         , 4), 0)
-		ELSE 0 END AS bounce_rate`
+		ELSE -1 END AS bounce_rate`
 
 	// EventsJoinStmt is the join statement to join the events table.
 	EventsJoinStmt = "events USING (bid)"

@@ -64,6 +64,7 @@ type AnalyticsClient interface {
 	// Pages
 	GetWebsitePages(ctx context.Context, filter *Filters) ([]*model.StatsPages, error)
 	GetWebsitePagesSummary(ctx context.Context, filter *Filters) ([]*model.StatsPagesSummary, error)
+	GetWebsitePagesCount(ctx context.Context, filter *Filters) (int, error)
 	// Locales
 	GetWebsiteCountries(ctx context.Context, filter *Filters) ([]*model.StatsCountries, error)
 	GetWebsiteCountriesSummary(

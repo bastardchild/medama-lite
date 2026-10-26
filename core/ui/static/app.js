@@ -453,6 +453,12 @@
 					event.detail.parameters[key] = value;
 				});
 			}
+
+			// Forward saved pages_limit if not already specified in the request
+			var savedPagesLimit = localStorage.getItem('medama_pages_limit');
+			if (savedPagesLimit && !event.detail.parameters['pages_limit'] && path.indexOf('/pages') !== -1) {
+				event.detail.parameters['pages_limit'] = savedPagesLimit;
+			}
 		}
 	});
 
